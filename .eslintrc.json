@@ -12,9 +12,30 @@
 		"next/core-web-vitals",
 		"prettier"
 	],
+	"settings": {
+		"import/resolver": {
+			"typescript": true,
+			"node": true
+		}
+	},
 	"rules": {
 		// sort imports
-		"import/order": "error",
+		"import/order": [
+			"error",
+			{
+				"groups": [
+					"builtin",
+					"external",
+					"internal",
+					"unknown",
+					"parent",
+					"sibling",
+					"index",
+					"object",
+					"type"
+				]
+			}
+		],
 		// no let exports
 		"import/no-mutable-exports": "error",
 		"import/no-cycle": "error",
