@@ -10,7 +10,6 @@
 		"prettier": "prettier --write ."
 	},
 	"dependencies": {
-		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"@types/node": "20.5.9",
 		"@types/react": "18.2.21",
 		"@types/react-dom": "18.2.7",
