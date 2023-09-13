@@ -10,7 +10,7 @@ export const ActiveLink = <T extends string>({
 	href,
 	children,
 }: {
-	href: Route<T> | URL;
+	href: Route<T>;
 	children: ReactNode;
 }) => {
 	const pathname = usePathname();
