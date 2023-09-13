@@ -9,4 +9,10 @@ export class ProductService {
 			.then((res) => res.json() as Promise<Product[]>)
 			.catch(() => Promise.resolve([]));
 	}
+
+	async getProduct({ id }: { id: string }): Promise<Product | null> {
+		return fetch(`https://naszsklep-api.vercel.app/api/products/${id}`)
+			.then((res) => res.json() as Promise<Product>)
+			.catch(() => Promise.resolve(null));
+	}
 }
