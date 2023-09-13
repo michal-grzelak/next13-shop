@@ -1,12 +1,32 @@
 import { notFound } from "next/navigation";
+import { type Metadata } from "next";
 import { ProductImage, ProductPrice } from "@components/Product";
 import { ProductService } from "@services";
 
-export default async function ProductPage({
-	params: { productId },
-}: {
+type Props = {
 	params: { productId: string };
-}) {
+};
+
+export async function generateMetadata({ params: { productId } }: Props): Promise<Metadata> {
+	const productService = new ProductService();
+	const product = await productService.getProduct({ id: productId });
+
+	if (!product) {
+		return { title: "Product not found" };
+	}
+
+	return {
+		title: product.title,
+		description: product.description,
+		openGraph: {
+			title: product.title,
+			description: product.description,
+			images: [product.image],
+		},
+	};
+}
+
+export default async function ProductPage({ params: { productId } }: Props) {
 	const productService = new ProductService();
 	const product = await productService.getProduct({ id: productId });
 
