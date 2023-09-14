@@ -8,7 +8,9 @@ type Props = {
 export default async function Products({ params: { page } }: Props) {
 	const productService = new ProductService();
 	const pageNumber = +page;
-	const products = await productService.getProducts({ page: isNaN(pageNumber) ? 1 : pageNumber });
+	const { data: products } = await productService.getProducts({
+		page: isNaN(pageNumber) ? 1 : pageNumber,
+	});
 
 	return (
 		<section className="p-4">
