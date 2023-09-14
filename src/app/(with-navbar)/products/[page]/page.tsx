@@ -1,9 +1,14 @@
 import { ProductList } from "@components/Product";
 import { ProductService } from "@services";
 
-export default async function Products() {
+type Props = {
+	params: { page: string };
+};
+
+export default async function Products({ params: { page } }: Props) {
 	const productService = new ProductService();
-	const products = await productService.getProducts({ page: 1 });
+	const pageNumber = +page;
+	const products = await productService.getProducts({ page: isNaN(pageNumber) ? 1 : pageNumber });
 
 	return (
 		<section className="p-4">

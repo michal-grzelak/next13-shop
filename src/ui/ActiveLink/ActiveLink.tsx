@@ -6,15 +6,15 @@ import { type ReactNode } from "react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
-export const ActiveLink = <T extends string>({
-	href,
-	children,
-}: {
+type Props<T extends string> = {
 	href: Route<T>;
 	children: ReactNode;
-}) => {
+	exact?: boolean;
+};
+
+export const ActiveLink = <T extends string>({ href, children, exact = true }: Props<T>) => {
 	const pathname = usePathname();
-	const isActive = href === pathname;
+	const isActive = exact ? href === pathname : pathname.startsWith(href);
 
 	return (
 		<Link
