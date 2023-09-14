@@ -6,6 +6,14 @@ type Props = {
 	params: { page: string };
 };
 
+export async function generateStaticParams() {
+	const array = [...Array(10).keys()];
+
+	return array.map((_, index) => ({
+		page: String(index + 1),
+	}));
+}
+
 export default async function Products({ params: { page } }: Props) {
 	const productService = new ProductService();
 	const pageNumber = +page;
