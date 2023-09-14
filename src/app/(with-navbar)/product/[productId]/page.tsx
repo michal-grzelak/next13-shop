@@ -40,7 +40,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 				<ProductImage src={product.image} alt={product.title} />
 
 				<div className="mx-auto mt-5 w-full max-w-lg md:ml-8 md:mt-0 md:w-1/2">
-					<h3 className="text-lg uppercase text-gray-700">{product.title}</h3>
+					<h1 className="text-lg uppercase text-gray-700">{product.title}</h1>
 					<ProductPrice price={product.price} />
 					<hr className="my-3" />
 					<section className="mt-2">

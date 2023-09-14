@@ -12,7 +12,7 @@ export const Pagination = ({ page, pages, ariaLabel = "pagination-list" }: Props
 		<nav aria-label={ariaLabel}>
 			<ul className="list-style-none flex">
 				{pagination.map((pageItem, index) => (
-					<li key={`pagination-tem-${index}`}>
+					<li key={`pagination-item-${index}`}>
 						<PaginationButton
 							href={pageItem.disabled ? "#" : `/products/${pageItem.page}`}
 							disabled={pageItem.disabled}
