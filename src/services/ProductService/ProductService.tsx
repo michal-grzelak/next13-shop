@@ -7,8 +7,8 @@ export class ProductService {
 		const params = new URLSearchParams({ offset: String(offset), take: String(TAKE) });
 
 		return fetch(`https://naszsklep-api.vercel.app/api/products?${params.toString()}`)
-			.then(async (res) => ({ data: (await res.json()) as Product[], page, pages: 3 }))
-			.catch(() => Promise.resolve({ data: [], page, pages: 3 }));
+			.then(async (res) => ({ data: (await res.json()) as Product[], page, pages: 10 }))
+			.catch(() => Promise.resolve({ data: [], page, pages: 0 }));
 	}
 
 	async getProduct({ id }: { id: string }): Promise<Product | null> {
