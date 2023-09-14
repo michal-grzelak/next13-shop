@@ -1,8 +1,8 @@
+import { type Product } from "@types";
 import { ProductItem } from "./ProductItem";
-import { type IUIProduct } from "./types";
 
 type Props = {
-	products: IUIProduct[];
+	products: Product[];
 };
 
 export const ProductList = ({ products }: Props) => {
