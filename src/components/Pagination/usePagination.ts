@@ -30,9 +30,9 @@ export const usePagination = ({
 	const showBeforeDots = beforeCurrentPages - 1 > displayCount;
 	const showAfterDots = afterCurrentPages - 1 > displayCount;
 
-	const displayedPages = Math.min(pages - 2, displayCount * 2 + 1);
 	const firstDisplayedPage = Math.max(page - displayCount, 2);
 	const lastDisplayedPage = Math.min(page + displayCount, pages - 1);
+	const displayedPages = lastDisplayedPage - firstDisplayedPage + 1;
 
 	return {
 		pagination: [
