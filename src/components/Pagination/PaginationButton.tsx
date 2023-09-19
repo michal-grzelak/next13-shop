@@ -29,6 +29,10 @@ export const PaginationButton = <T extends string>({
 		{ "text-gray-400": disabled && !selected },
 	);
 
+	if (disabled) {
+		return <div className={className}>{children}</div>;
+	}
+
 	return (
 		<Link className={className} href={href}>
 			{children}
