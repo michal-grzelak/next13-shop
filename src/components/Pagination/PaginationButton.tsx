@@ -16,16 +16,21 @@ export const PaginationButton = <T extends string>({
 	disabled,
 	selected,
 }: Props<T>) => {
+	const className = clsx(
+		// all styles
+		"relative block rounded bg-transparent px-3 py-1.5 text-sm  transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white",
+		// only active links (NOT disabled and NOT selected)
+		{ "text-gray-700": !disabled && !selected },
+		// only selected
+		{ "text-gray-950 underline": selected },
+		// all disabled
+		{ "pointer-events-none": disabled },
+		// all disabled WITHOUT selected
+		{ "text-gray-400": disabled && !selected },
+	);
+
 	return (
-		<Link
-			className={clsx(
-				"relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white",
-				{ "pointer-events-none": disabled },
-				{ "text-gray-400": disabled && !selected },
-				{ underline: selected },
-			)}
-			href={href}
-		>
+		<Link className={className} href={href}>
 			{children}
 		</Link>
 	);
