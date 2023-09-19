@@ -82,6 +82,14 @@
 				"allowNumber": true,
 				"allowBoolean": true
 			}
+		],
+		// forbid restricted imports
+		"no-restricted-imports": [
+			"error",
+			{
+				"name": "next/router",
+				"message": "Please use next/navigation instead."
+			}
 		]
 	},
 	"overrides": [
