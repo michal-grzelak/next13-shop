@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
 	content: [
@@ -16,6 +16,6 @@ const config: Config = {
 		},
 	},
 	darkMode: "class",
-};
+}
 // eslint-disable-next-line import/no-default-export
-export default config;
+export default config

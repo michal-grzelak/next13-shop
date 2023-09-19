@@ -1,9 +1,9 @@
-import Image from "next/image";
+import Image from "next/image"
 
 type Props = {
-	src: string;
-	alt: string;
-};
+	src: string
+	alt: string
+}
 
 export const ProductImage = ({ src, alt }: Props) => {
 	return (
@@ -16,5 +16,5 @@ export const ProductImage = ({ src, alt }: Props) => {
 				className="aspect-square object-cover object-center group-hover:opacity-75"
 			/>
 		</div>
-	);
-};
+	)
+}

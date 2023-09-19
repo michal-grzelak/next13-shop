@@ -1,38 +1,38 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { type ReactNode } from "react";
+import { type ReactNode } from "react"
 
-const DISPLAY_COUNT = 1;
+const DISPLAY_COUNT = 1
 
 type Page = {
-	children: ReactNode;
-	disabled?: boolean;
-	page?: number;
-};
+	children: ReactNode
+	disabled?: boolean
+	page?: number
+}
 
 export const usePagination = ({
 	page,
 	pages,
 	displayCount = DISPLAY_COUNT,
 }: {
-	page: number;
-	pages: number;
-	displayCount?: number;
+	page: number
+	pages: number
+	displayCount?: number
 }) => {
-	const isPrevious = page > 1;
-	const isNext = page < pages;
+	const isPrevious = page > 1
+	const isNext = page < pages
 
-	const beforeCurrentPages = page - 1;
-	const afterCurrentPages = pages - page;
+	const beforeCurrentPages = page - 1
+	const afterCurrentPages = pages - page
 
-	const showBeforeCount = Math.min(displayCount, beforeCurrentPages);
-	const showAfterCount = Math.min(displayCount, afterCurrentPages);
+	const showBeforeCount = Math.min(displayCount, beforeCurrentPages)
+	const showAfterCount = Math.min(displayCount, afterCurrentPages)
 
-	const showBeforeDots = beforeCurrentPages - 1 > displayCount;
-	const showAfterDots = afterCurrentPages - 1 > displayCount;
+	const showBeforeDots = beforeCurrentPages - 1 > displayCount
+	const showAfterDots = afterCurrentPages - 1 > displayCount
 
-	const firstDisplayedPage = Math.max(page - displayCount, 2);
-	const lastDisplayedPage = Math.min(page + displayCount, pages - 1);
-	const displayedPages = lastDisplayedPage - firstDisplayedPage + 1;
+	const firstDisplayedPage = Math.max(page - displayCount, 2)
+	const lastDisplayedPage = Math.min(page + displayCount, pages - 1)
+	const displayedPages = lastDisplayedPage - firstDisplayedPage + 1
 
 	return {
 		pagination: [
@@ -48,5 +48,5 @@ export const usePagination = ({
 			{ children: pages, page: pages, disabled: pages === page },
 			{ children: "Next", page: page + 1, disabled: !isNext },
 		] as Page[],
-	};
-};
+	}
+}

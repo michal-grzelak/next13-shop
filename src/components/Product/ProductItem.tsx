@@ -1,11 +1,11 @@
-import Link from "next/link";
-import { type Product } from "@types";
-import { ProductImage } from "./ProductImage";
-import { ProductPrice } from "./ProductPrice";
+import Link from "next/link"
+import { type Product } from "@types"
+import { ProductImage } from "./ProductImage"
+import { ProductPrice } from "./ProductPrice"
 
 type Props = {
-	product: Product;
-};
+	product: Product
+}
 
 export const ProductItem = ({ product }: Props) => {
 	return (
@@ -18,5 +18,5 @@ export const ProductItem = ({ product }: Props) => {
 				</article>
 			</Link>
 		</li>
-	);
-};
+	)
+}

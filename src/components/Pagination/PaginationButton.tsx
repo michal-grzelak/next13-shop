@@ -1,14 +1,14 @@
-import clsx from "clsx";
-import { type Route } from "next";
-import Link from "next/link";
-import { type ReactNode } from "react";
+import clsx from "clsx"
+import { type Route } from "next"
+import Link from "next/link"
+import { type ReactNode } from "react"
 
 type Props<T extends string> = {
-	children: ReactNode;
-	href: Route<T>;
-	disabled?: boolean;
-	selected?: boolean;
-};
+	children: ReactNode
+	href: Route<T>
+	disabled?: boolean
+	selected?: boolean
+}
 
 export const PaginationButton = <T extends string>({
 	children,
@@ -27,15 +27,15 @@ export const PaginationButton = <T extends string>({
 		{ "pointer-events-none": disabled },
 		// all disabled WITHOUT selected
 		{ "text-gray-400": disabled && !selected },
-	);
+	)
 
 	if (disabled) {
-		return <div className={className}>{children}</div>;
+		return <div className={className}>{children}</div>
 	}
 
 	return (
 		<Link className={className} href={href}>
 			{children}
 		</Link>
-	);
-};
+	)
+}

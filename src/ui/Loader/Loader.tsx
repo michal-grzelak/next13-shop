@@ -8,5 +8,5 @@ export const Loader = () => {
 				Loading...
 			</span>
 		</div>
-	);
-};
+	)
+}

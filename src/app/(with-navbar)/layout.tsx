@@ -1,12 +1,12 @@
-import { type ReactNode } from "react";
-import { type Route } from "next";
-import clsx from "clsx";
-import { ActiveLink } from "@ui/ActiveLink";
+import { type ReactNode } from "react"
+import { type Route } from "next"
+import clsx from "clsx"
+import { ActiveLink } from "@ui/ActiveLink"
 
 const routes = [
 	{ href: "/", content: "Home" },
 	{ href: "/products", content: "All", exact: false },
-];
+]
 
 export default function NavLayout({ children }: { children: ReactNode }) {
 	return (
@@ -25,5 +25,5 @@ export default function NavLayout({ children }: { children: ReactNode }) {
 
 			<main>{children}</main>
 		</>
-	);
+	)
 }

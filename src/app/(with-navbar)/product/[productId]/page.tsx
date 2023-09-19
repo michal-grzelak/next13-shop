@@ -1,18 +1,18 @@
-import { notFound } from "next/navigation";
-import { type Metadata } from "next";
-import { ProductImage, ProductPrice } from "@components/Product";
-import { ProductService } from "@services";
+import { notFound } from "next/navigation"
+import { type Metadata } from "next"
+import { ProductImage, ProductPrice } from "@components/Product"
+import { ProductService } from "@services"
 
 type Props = {
-	params: { productId: string };
-};
+	params: { productId: string }
+}
 
 export async function generateMetadata({ params: { productId } }: Props): Promise<Metadata> {
-	const productService = new ProductService();
-	const product = await productService.getProduct({ id: productId });
+	const productService = new ProductService()
+	const product = await productService.getProduct({ id: productId })
 
 	if (!product) {
-		return { title: "Product not found" };
+		return { title: "Product not found" }
 	}
 
 	return {
@@ -23,15 +23,15 @@ export async function generateMetadata({ params: { productId } }: Props): Promis
 			description: product.description,
 			images: [product.image],
 		},
-	};
+	}
 }
 
 export default async function ProductPage({ params: { productId } }: Props) {
-	const productService = new ProductService();
-	const product = await productService.getProduct({ id: productId });
+	const productService = new ProductService()
+	const product = await productService.getProduct({ id: productId })
 
 	if (!product) {
-		return notFound();
+		return notFound()
 	}
 
 	return (
@@ -49,5 +49,5 @@ export default async function ProductPage({ params: { productId } }: Props) {
 				</div>
 			</div>
 		</article>
-	);
+	)
 }

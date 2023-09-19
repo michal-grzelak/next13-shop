@@ -19,8 +19,8 @@ const nextConfig = {
 				destination: "/products/1",
 				permanent: false,
 			},
-		];
+		]
 	},
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
