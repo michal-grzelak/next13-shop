@@ -1,7 +1,7 @@
 {
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"graphql-config.dotEnvPath": "./.env",
+	"graphql-config.dotEnvPath": "./.env.local",
 	"files.associations": {
 		"*.css": "tailwindcss"
 	},

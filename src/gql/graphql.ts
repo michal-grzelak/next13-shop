@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -1513,6 +1514,15 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
+export type PaginationFragment = { page: number, pageCount: number, total: number, pageSize: number } & { ' $fragmentName'?: 'PaginationFragment' };
+
+export type ProductsGetListQueryVariables = Exact<{
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+
+export type ProductsGetListQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, description?: string | null, weightedRating?: number | null, price: number, images?: { data: Array<{ attributes?: { alternativeText?: string | null, url: string } | null }> } | null, categories?: { data: Array<{ attributes?: { name: string } | null }> } | null } | null }>, meta: { pagination: { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } } } } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -1527,3 +1537,51 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const PaginationFragmentDoc = new TypedDocumentString(`
+    fragment Pagination on Pagination {
+  page
+  pageCount
+  total
+  pageSize
+}
+    `, {"fragmentName":"Pagination"}) as unknown as TypedDocumentString<PaginationFragment, unknown>;
+export const ProductsGetListDocument = new TypedDocumentString(`
+    query ProductsGetList($pagination: PaginationArg) {
+  products(pagination: $pagination) {
+    data {
+      id
+      attributes {
+        name
+        description
+        weightedRating
+        price
+        images {
+          data {
+            attributes {
+              alternativeText
+              url
+            }
+          }
+        }
+        categories {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+    meta {
+      pagination {
+        ...Pagination
+      }
+    }
+  }
+}
+    fragment Pagination on Pagination {
+  page
+  pageCount
+  total
+  pageSize
+}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
