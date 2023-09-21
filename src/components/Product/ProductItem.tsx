@@ -12,7 +12,7 @@ export const ProductItem = ({ product }: Props) => {
 		<li key={product.id}>
 			<Link href={`/product/${product.id}`}>
 				<article className="group">
-					<ProductImage src={product.image} alt={product.title} />
+					<ProductImage product={product} />
 					<h3 className="mt-4 text-sm text-gray-700">{product.title}</h3>
 					<ProductPrice price={product.price} />
 				</article>

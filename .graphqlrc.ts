@@ -5,14 +5,14 @@ loadEnvConfig(process.cwd())
 
 const config: CodegenConfig = {
 	overwrite: true,
-	schema: process.env.API_URL,
+	schema: process.env.GRAPHQL_URL,
 	documents: "src/graphql/*.graphql",
 	ignoreNoDocuments: true,
 	generates: {
 		"src/gql/": {
 			preset: "client",
 			presetConfig: {
-				fragmentMasking: {},
+				fragmentMasking: false,
 			},
 			config: {
 				useTypeImports: true,

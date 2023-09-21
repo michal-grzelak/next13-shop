@@ -1,28 +1,7 @@
 query ProductsGetList($pagination: PaginationArg) {
 	products(pagination: $pagination) {
 		data {
-			id
-			attributes {
-				name
-				description
-				weightedRating
-				price
-				images {
-					data {
-						attributes {
-							alternativeText
-							url
-						}
-					}
-				}
-				categories {
-					data {
-						attributes {
-							name
-						}
-					}
-				}
-			}
+			...Product
 		}
 		meta {
 			pagination {

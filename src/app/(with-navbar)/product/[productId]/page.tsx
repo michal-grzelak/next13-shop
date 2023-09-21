@@ -37,7 +37,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 	return (
 		<article className="container mx-auto px-6">
 			<div className="md:flex md:items-center">
-				<ProductImage src={product.image} alt={product.title} />
+				<ProductImage product={product} />
 
 				<div className="mx-auto mt-5 w-full max-w-lg md:ml-8 md:mt-0 md:w-1/2">
 					<h1 className="text-lg uppercase text-gray-700">{product.title}</h1>

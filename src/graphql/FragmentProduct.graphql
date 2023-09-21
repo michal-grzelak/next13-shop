@@ -1,0 +1,24 @@
+fragment Product on ProductEntity {
+	id
+	attributes {
+		name
+		description
+		weightedRating
+		price
+		images {
+			data {
+				attributes {
+					alternativeText
+					url
+				}
+			}
+		}
+		categories {
+			data {
+				attributes {
+					name
+				}
+			}
+		}
+	}
+}

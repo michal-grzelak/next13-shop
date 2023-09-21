@@ -10,6 +10,11 @@ const nextConfig = {
 				hostname: "naszsklep-api.vercel.app",
 				pathname: "/images/**",
 			},
+			{
+				protocol: "https",
+				hostname: "api.hyperfunctor.com",
+				pathname: "/uploads/**",
+			},
 		],
 	},
 	async redirects() {

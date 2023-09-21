@@ -3,6 +3,5 @@ node_modules
 pnpm-lock.yaml
 .env.template
 src/gql
-src/graphql
 .prettierignore
 .eslintignore

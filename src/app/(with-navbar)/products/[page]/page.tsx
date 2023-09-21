@@ -17,14 +17,14 @@ export async function generateStaticParams() {
 export default async function Products({ params: { page } }: Props) {
 	const productService = new ProductService()
 	const pageNumber = +page
-	const { data: products, pages } = await productService.getProducts({
+	const { data: products, meta } = await productService.getProducts({
 		page: isNaN(pageNumber) ? 1 : pageNumber,
 	})
 
 	return (
 		<section className="p-4">
 			<ProductList products={products}></ProductList>
-			<Pagination page={pageNumber} pages={pages} />
+			<Pagination page={pageNumber} pages={meta.pageCount} />
 		</section>
 	)
 }
