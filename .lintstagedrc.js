@@ -1,6 +1,13 @@
 const path = require("path")
 
-const relativeFilenames = (filenames) => filenames.map((f) => path.relative(process.cwd(), f))
+// blacklist files from being linted
+const blacklist = [".env.template"]
+
+/** @param filenames {string[]} */
+const relativeFilenames = (filenames) =>
+	filenames
+		.map((f) => path.relative(process.cwd(), f))
+		.filter((value) => !blacklist.includes(value))
 
 module.exports = {
 	// run lint in src dir only
