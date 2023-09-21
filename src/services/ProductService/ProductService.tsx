@@ -1,4 +1,4 @@
-import { type ProductFragment, ProductsGetListDocument } from "@/gql/graphql"
+import { type ProductFragment, ProductsGetListDocument, ProductGetDocument } from "@/gql/graphql"
 import { DEFAULT_PAGE_SIZE } from "@services/constants"
 import { type Pagination, type Product } from "@types"
 import { executeGraphql } from "@services/graphql"
@@ -24,7 +24,7 @@ export class ProductService {
 			pagination: { page, pageSize: DEFAULT_PAGE_SIZE },
 		})
 
-		if (!res.products) {
+		if (!res.products?.data) {
 			return Promise.resolve({ data: [], meta: { page, pageCount: 0, pageSize: 0, total: 0 } })
 		}
 
@@ -35,8 +35,14 @@ export class ProductService {
 	}
 
 	async getProduct({ id }: { id: string }): Promise<Product | null> {
-		return fetch(`https://naszsklep-api.vercel.app/api/products/${id}`)
-			.then((res) => res.json() as Promise<Product>)
-			.catch(() => Promise.resolve(null))
+		const res = await executeGraphql(ProductGetDocument, {
+			productId: id,
+		})
+
+		if (!res.product?.data) {
+			return null
+		}
+
+		return mapGraphqlProductToProduct(res.product.data)
 	}
 }

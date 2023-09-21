@@ -1518,6 +1518,13 @@ export type PaginationFragment = { page: number, pageCount: number, total: numbe
 
 export type ProductFragment = { id?: string | null, attributes?: { name: string, description?: string | null, weightedRating?: number | null, price: number, images?: { data: Array<{ attributes?: { alternativeText?: string | null, url: string } | null }> } | null, categories?: { data: Array<{ attributes?: { name: string } | null }> } | null } | null };
 
+export type ProductGetQueryVariables = Exact<{
+  productId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type ProductGetQuery = { product?: { data?: { id?: string | null, attributes?: { name: string, description?: string | null, weightedRating?: number | null, price: number, images?: { data: Array<{ attributes?: { alternativeText?: string | null, url: string } | null }> } | null, categories?: { data: Array<{ attributes?: { name: string } | null }> } | null } | null } | null } | null };
+
 export type ProductsGetListQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
 }>;
@@ -1573,6 +1580,38 @@ export const ProductFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"Product"}) as unknown as TypedDocumentString<ProductFragment, unknown>;
+export const ProductGetDocument = new TypedDocumentString(`
+    query ProductGet($productId: ID) {
+  product(id: $productId) {
+    data {
+      ...Product
+    }
+  }
+}
+    fragment Product on ProductEntity {
+  id
+  attributes {
+    name
+    description
+    weightedRating
+    price
+    images {
+      data {
+        attributes {
+          alternativeText
+          url
+        }
+      }
+    }
+    categories {
+      data {
+        attributes {
+          name
+        }
+      }
+    }
+  }
+}`) as unknown as TypedDocumentString<ProductGetQuery, ProductGetQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList($pagination: PaginationArg) {
   products(pagination: $pagination) {
