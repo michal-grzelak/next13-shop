@@ -10971,7 +10971,7 @@ export const ProductsListGetByCategorySlugDocument = new TypedDocumentString(`
   ) {
     ...Product
   }
-  productsConnection {
+  productsConnection(where: {categories_some: {slug: $categorySlug}}) {
     ...ProductPagination
   }
 }
@@ -11008,7 +11008,7 @@ export const ProductsListGetByCollectionSlugDocument = new TypedDocumentString(`
   ) {
     ...Product
   }
-  productsConnection {
+  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {
     ...ProductPagination
   }
 }

@@ -2,7 +2,7 @@ query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug
 	products(first: $first, skip: $skip, where: { collections_some: { slug: $collectionSlug } }) {
 		...Product
 	}
-	productsConnection {
+	productsConnection(where: { collections_some: { slug: $collectionSlug } }) {
 		...ProductPagination
 	}
 }
