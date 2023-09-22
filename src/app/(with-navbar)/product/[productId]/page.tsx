@@ -1,7 +1,7 @@
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { ProductImage, ProductPrice } from "@components/Product"
+import { ProductImage, ProductList, ProductPrice } from "@components/Product"
 import { ProductService } from "@services"
 
 type Props = {
@@ -30,13 +30,16 @@ export async function generateMetadata({ params: { productId } }: Props): Promis
 export default async function ProductPage({ params: { productId } }: Props) {
 	const productService = new ProductService()
 	const product = await productService.getProduct({ id: productId })
+	const relatedProducts = await productService.getRelatedProducts({
+		categorySlug: product?.categories?.[0]?.slug ?? "",
+	})
 
 	if (!product) {
 		return notFound()
 	}
 
 	return (
-		<article className="container mx-auto px-6">
+		<article className="container mx-auto flex flex-col gap-24 px-6">
 			<div className="md:flex md:items-center">
 				<ProductImage product={product} />
 
@@ -49,6 +52,11 @@ export default async function ProductPage({ params: { productId } }: Props) {
 					</section>
 				</div>
 			</div>
+
+			<section data-testid="related-products">
+				<h2 className="text-lg uppercase text-gray-700">Related products</h2>
+				<ProductList products={relatedProducts} />
+			</section>
 		</article>
 	)
 }

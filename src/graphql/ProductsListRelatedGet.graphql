@@ -1,8 +1,5 @@
-query ProductsListRelatedGet($categorySlug: String!, $collectionSlug: String!) {
-	products(
-		first: 4
-		where: { collections_some: { slug: $collectionSlug }, categories_some: { slug: $categorySlug } }
-	) {
+query ProductsListRelatedGet($categorySlug: String) {
+	products(first: 4, where: { categories_some: { slug: $categorySlug } }) {
 		...Product
 	}
 }

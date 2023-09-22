@@ -92,17 +92,9 @@ export class ProductService {
 		}
 	}
 
-	async getRelatedProducts({
-		categorySlug,
-		collectionSlug,
-	}: {
-		page: number
-		categorySlug: string
-		collectionSlug: string
-	}): Promise<ProductFragment[]> {
+	async getRelatedProducts({ categorySlug }: { categorySlug: string }): Promise<ProductFragment[]> {
 		const res = await executeGraphql(ProductsListRelatedGetDocument, {
 			categorySlug,
-			collectionSlug,
 		})
 
 		if (!res.products) {

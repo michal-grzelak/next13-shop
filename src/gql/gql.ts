@@ -19,13 +19,13 @@ const documents = {
     "fragment Category on Category {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}": types.CategoryFragmentDoc,
     "fragment Collection on Collection {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}": types.CollectionFragmentDoc,
     "fragment Product on Product {\n  id\n  name\n  description\n  price\n  images(first: 1) {\n    url\n  }\n  categories {\n    ...ProductCategory\n  }\n}": types.ProductFragmentDoc,
-    "fragment ProductCategory on Category {\n  name\n  description\n}": types.ProductCategoryFragmentDoc,
+    "fragment ProductCategory on Category {\n  name\n  description\n  slug\n}": types.ProductCategoryFragmentDoc,
     "fragment ProductPagination on ProductConnection {\n  aggregate {\n    count\n  }\n  pageInfo {\n    pageSize\n  }\n}": types.ProductPaginationFragmentDoc,
     "query ProductGet($productId: ID!) {\n  product(where: {id: $productId}) {\n    ...Product\n  }\n}": types.ProductGetDocument,
     "query ProductsListGet($first: Int!, $skip: Int!) {\n  products(first: $first, skip: $skip) {\n    ...Product\n  }\n  productsConnection {\n    ...ProductPagination\n  }\n}": types.ProductsListGetDocument,
     "query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCategorySlugDocument,
     "query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {collections_some: {slug: $collectionSlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCollectionSlugDocument,
-    "query ProductsListRelatedGet($categorySlug: String!, $collectionSlug: String!) {\n  products(\n    first: 4\n    where: {collections_some: {slug: $collectionSlug}, categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n}": types.ProductsListRelatedGetDocument,
+    "query ProductsListRelatedGet($categorySlug: String) {\n  products(first: 4, where: {categories_some: {slug: $categorySlug}}) {\n    ...Product\n  }\n}": types.ProductsListRelatedGetDocument,
 };
 
 /**
@@ -51,7 +51,7 @@ export function graphql(source: "fragment Product on Product {\n  id\n  name\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment ProductCategory on Category {\n  name\n  description\n}"): typeof import('./graphql').ProductCategoryFragmentDoc;
+export function graphql(source: "fragment ProductCategory on Category {\n  name\n  description\n  slug\n}"): typeof import('./graphql').ProductCategoryFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -75,7 +75,7 @@ export function graphql(source: "query ProductsListGetByCollectionSlug($first: I
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductsListRelatedGet($categorySlug: String!, $collectionSlug: String!) {\n  products(\n    first: 4\n    where: {collections_some: {slug: $collectionSlug}, categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n}"): typeof import('./graphql').ProductsListRelatedGetDocument;
+export function graphql(source: "query ProductsListRelatedGet($categorySlug: String) {\n  products(first: 4, where: {categories_some: {slug: $categorySlug}}) {\n    ...Product\n  }\n}"): typeof import('./graphql').ProductsListRelatedGetDocument;
 
 
 export function graphql(source: string) {
