@@ -16,12 +16,12 @@ export async function generateMetadata({ params: { productId } }: Props): Promis
 	}
 
 	return {
-		title: product.title,
+		title: product.name,
 		description: product.description,
 		openGraph: {
-			title: product.title,
+			title: product.name,
 			description: product.description,
-			images: [product.image],
+			images: product.images?.map((image) => image.url),
 		},
 	}
 }
@@ -40,7 +40,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 				<ProductImage product={product} />
 
 				<div className="mx-auto mt-5 w-full max-w-lg md:ml-8 md:mt-0 md:w-1/2">
-					<h1 className="text-lg uppercase text-gray-700">{product.title}</h1>
+					<h1 className="text-lg uppercase text-gray-700">{product.name}</h1>
 					<ProductPrice price={product.price} />
 					<hr className="my-3" />
 					<section className="mt-2">

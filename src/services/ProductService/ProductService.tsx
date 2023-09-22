@@ -3,21 +3,10 @@ import {
 	ProductsListGetDocument,
 	ProductGetDocument,
 	type ProductPaginationFragment,
-} from "@/gql/graphql"
+} from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE } from "@services/constants"
-import { type Pagination, type Product } from "@types"
+import { type Pagination } from "@types"
 import { executeGraphql } from "@services/graphql"
-
-const mapGraphqlProductToProduct = (product: ProductFragment): Product => {
-	return {
-		id: product.id,
-		title: product.name,
-		description: product.description,
-		price: product.price,
-		categories: product.categories,
-		image: product.images[0]?.url ?? "#",
-	}
-}
 
 const mapGraphqlPaginationToPagination = ({
 	page,
@@ -32,7 +21,7 @@ const mapGraphqlPaginationToPagination = ({
 })
 
 export class ProductService {
-	async getProducts({ page }: { page: number }): Promise<Pagination<Product>> {
+	async getProducts({ page }: { page: number }): Promise<Pagination<ProductFragment>> {
 		const skip = (page - 1) * DEFAULT_PAGE_SIZE
 
 		const res = await executeGraphql(ProductsListGetDocument, {
@@ -46,11 +35,11 @@ export class ProductService {
 
 		return {
 			meta: mapGraphqlPaginationToPagination({ page, paginationMeta: res.productsConnection }),
-			data: res.products.map(mapGraphqlProductToProduct),
+			data: res.products,
 		}
 	}
 
-	async getProduct({ id }: { id: string }): Promise<Product | null> {
+	async getProduct({ id }: { id: string }): Promise<ProductFragment | null> {
 		const res = await executeGraphql(ProductGetDocument, {
 			productId: id,
 		})
@@ -59,6 +48,6 @@ export class ProductService {
 			return null
 		}
 
-		return mapGraphqlProductToProduct(res.product)
+		return res.product
 	}
 }

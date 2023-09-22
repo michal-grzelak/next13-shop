@@ -20,6 +20,7 @@
 			}
 		],
 		"paths": {
+			"@gql/*": ["./src/gql/*"],
 			"@components/*": ["./src/components/*"],
 			"@ui/*": ["./src/ui/*"],
 			"@services": ["./src/services"],
