@@ -1,0 +1,10 @@
+fragment ProductDetails on Product {
+	...Product
+	variants {
+		... on ProductSizeColorVariant {
+			name
+			color
+			size
+		}
+	}
+}

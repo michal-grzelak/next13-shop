@@ -6,6 +6,7 @@ import {
 	ProductsListGetByCategorySlugDocument,
 	ProductsListGetByCollectionSlugDocument,
 	ProductsListRelatedGetDocument,
+	type ProductDetailsFragment,
 } from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
@@ -104,7 +105,7 @@ export class ProductService {
 		return res.products
 	}
 
-	async getProduct({ id }: { id: string }): Promise<ProductFragment | null> {
+	async getProduct({ id }: { id: string }): Promise<ProductDetailsFragment | null> {
 		const res = await executeGraphql(ProductGetDocument, {
 			productId: id,
 		})

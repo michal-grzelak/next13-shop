@@ -10765,6 +10765,8 @@ export type ProductFragment = { id: string, name: string, description: string, p
 
 export type ProductCategoryFragment = { name: string, description?: string | null, slug: string };
 
+export type ProductDetailsFragment = { id: string, name: string, description: string, price: number, variants: Array<{ name: string, color: ProductColor, size: ProductSize } | {}>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> };
+
 export type ProductPaginationFragment = { aggregate: { count: number }, pageInfo: { pageSize?: number | null } };
 
 export type ProductGetQueryVariables = Exact<{
@@ -10772,7 +10774,7 @@ export type ProductGetQueryVariables = Exact<{
 }>;
 
 
-export type ProductGetQuery = { product?: { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null };
+export type ProductGetQuery = { product?: { id: string, name: string, description: string, price: number, variants: Array<{ name: string, color: ProductColor, size: ProductSize } | {}>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null };
 
 export type ProductsListGetQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -10872,6 +10874,34 @@ export const ProductFragmentDoc = new TypedDocumentString(`
   description
   slug
 }`, {"fragmentName":"Product"}) as unknown as TypedDocumentString<ProductFragment, unknown>;
+export const ProductDetailsFragmentDoc = new TypedDocumentString(`
+    fragment ProductDetails on Product {
+  ...Product
+  variants {
+    ... on ProductSizeColorVariant {
+      name
+      color
+      size
+    }
+  }
+}
+    fragment Product on Product {
+  id
+  name
+  description
+  price
+  images(first: 1) {
+    url
+  }
+  categories {
+    ...ProductCategory
+  }
+}
+fragment ProductCategory on Category {
+  name
+  description
+  slug
+}`, {"fragmentName":"ProductDetails"}) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
 export const ProductPaginationFragmentDoc = new TypedDocumentString(`
     fragment ProductPagination on ProductConnection {
   aggregate {
@@ -10919,7 +10949,7 @@ export const CollectionListGetDocument = new TypedDocumentString(`
 export const ProductGetDocument = new TypedDocumentString(`
     query ProductGet($productId: ID!) {
   product(where: {id: $productId}) {
-    ...Product
+    ...ProductDetails
   }
 }
     fragment Product on Product {
@@ -10938,6 +10968,16 @@ fragment ProductCategory on Category {
   name
   description
   slug
+}
+fragment ProductDetails on Product {
+  ...Product
+  variants {
+    ... on ProductSizeColorVariant {
+      name
+      color
+      size
+    }
+  }
 }`) as unknown as TypedDocumentString<ProductGetQuery, ProductGetQueryVariables>;
 export const ProductsListGetDocument = new TypedDocumentString(`
     query ProductsListGet($first: Int!, $skip: Int!) {
