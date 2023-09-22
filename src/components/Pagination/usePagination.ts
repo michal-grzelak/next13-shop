@@ -39,13 +39,13 @@ export const usePagination = ({
 			{ children: "Previous", page: page - 1, disabled: !isPrevious },
 			{ children: 1, page: 1, disabled: page === 1 },
 			...(showBeforeDots ? [{ children: "...", disabled: true }] : []),
-			...[...Array(displayedPages).keys()].map((_, index) => ({
+			...[...(displayedPages > 0 ? Array(displayedPages).keys() : [])].map((_, index) => ({
 				children: index + firstDisplayedPage,
 				page: index + firstDisplayedPage,
 				disabled: index + firstDisplayedPage === page,
 			})),
 			...(showAfterDots ? [{ children: "...", disabled: true }] : []),
-			{ children: pages, page: pages, disabled: pages === page },
+			...(pages > 1 ? [{ children: pages, page: pages, disabled: pages === page }] : []),
 			{ children: "Next", page: page + 1, disabled: !isNext },
 		] as Page[],
 	}
