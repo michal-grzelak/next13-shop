@@ -1,8 +1,0 @@
-fragment CategoryPagination on CategoryConnection {
-	aggregate {
-		count
-	}
-	pageInfo {
-		pageSize
-	}
-}

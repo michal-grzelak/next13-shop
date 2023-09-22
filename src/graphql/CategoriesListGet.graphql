@@ -2,7 +2,4 @@ query CategoriesListGet {
 	categories {
 		...Category
 	}
-	categoriesConnection {
-		...CategoryPagination
-	}
 }

@@ -10750,20 +10750,16 @@ export enum _SystemDateTimeFieldVariation {
 export type CategoriesListGetQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CategoriesListGetQuery = { categories: Array<{ id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> }>, categoriesConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
+export type CategoriesListGetQuery = { categories: Array<{ id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> }> };
 
 export type CollectionListGetQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CollectionListGetQuery = { collections: Array<{ id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> }>, collectionsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
+export type CollectionListGetQuery = { collections: Array<{ id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> }> };
 
 export type CategoryFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
 
-export type CategoryPaginationFragment = { aggregate: { count: number }, pageInfo: { pageSize?: number | null } };
-
 export type CollectionFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
-
-export type CollectionPaginationFragment = { aggregate: { count: number }, pageInfo: { pageSize?: number | null } };
 
 export type ProductFragment = { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> };
 
@@ -10831,16 +10827,6 @@ export const CategoryFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"Category"}) as unknown as TypedDocumentString<CategoryFragment, unknown>;
-export const CategoryPaginationFragmentDoc = new TypedDocumentString(`
-    fragment CategoryPagination on CategoryConnection {
-  aggregate {
-    count
-  }
-  pageInfo {
-    pageSize
-  }
-}
-    `, {"fragmentName":"CategoryPagination"}) as unknown as TypedDocumentString<CategoryPaginationFragment, unknown>;
 export const CollectionFragmentDoc = new TypedDocumentString(`
     fragment Collection on Collection {
   id
@@ -10854,16 +10840,6 @@ export const CollectionFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"Collection"}) as unknown as TypedDocumentString<CollectionFragment, unknown>;
-export const CollectionPaginationFragmentDoc = new TypedDocumentString(`
-    fragment CollectionPagination on CollectionConnection {
-  aggregate {
-    count
-  }
-  pageInfo {
-    pageSize
-  }
-}
-    `, {"fragmentName":"CollectionPagination"}) as unknown as TypedDocumentString<CollectionPaginationFragment, unknown>;
 export const ProductCategoryFragmentDoc = new TypedDocumentString(`
     fragment ProductCategory on Category {
   name
@@ -10902,9 +10878,6 @@ export const CategoriesListGetDocument = new TypedDocumentString(`
   categories {
     ...Category
   }
-  categoriesConnection {
-    ...CategoryPagination
-  }
 }
     fragment Category on Category {
   id
@@ -10916,22 +10889,11 @@ export const CategoriesListGetDocument = new TypedDocumentString(`
       url
     }
   }
-}
-fragment CategoryPagination on CategoryConnection {
-  aggregate {
-    count
-  }
-  pageInfo {
-    pageSize
-  }
 }`) as unknown as TypedDocumentString<CategoriesListGetQuery, CategoriesListGetQueryVariables>;
 export const CollectionListGetDocument = new TypedDocumentString(`
     query CollectionListGet {
   collections {
     ...Collection
-  }
-  collectionsConnection {
-    ...CollectionPagination
   }
 }
     fragment Collection on Collection {
@@ -10943,14 +10905,6 @@ export const CollectionListGetDocument = new TypedDocumentString(`
     images(first: 1) {
       url
     }
-  }
-}
-fragment CollectionPagination on CollectionConnection {
-  aggregate {
-    count
-  }
-  pageInfo {
-    pageSize
   }
 }`) as unknown as TypedDocumentString<CollectionListGetQuery, CollectionListGetQueryVariables>;
 export const ProductGetDocument = new TypedDocumentString(`
