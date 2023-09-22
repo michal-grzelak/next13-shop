@@ -27,8 +27,8 @@ const mapGraphqlPaginationToPagination = ({
 	page: number
 }): Pagination<unknown>["meta"] => ({
 	page,
-	pageCount: paginationMeta.aggregate.count,
-	pageSize: paginationMeta.pageInfo.pageSize ?? DEFAULT_PAGE_SIZE,
+	pageCount: Math.ceil(paginationMeta.aggregate.count / DEFAULT_PAGE_SIZE),
+	pageSize: DEFAULT_PAGE_SIZE,
 })
 
 export class ProductService {
