@@ -1,8 +1,0 @@
-query ProductsListGetByCategoryId($first: Int!, $skip: Int!, $categoryId: ID!) {
-	products(first: $first, skip: $skip, where: { categories_some: { id: $categoryId } }) {
-		...Product
-	}
-	productsConnection {
-		...ProductPagination
-	}
-}

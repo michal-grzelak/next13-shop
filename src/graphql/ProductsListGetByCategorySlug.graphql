@@ -1,0 +1,8 @@
+query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {
+	products(first: $first, skip: $skip, where: { categories_some: { slug: $categorySlug } }) {
+		...Product
+	}
+	productsConnection {
+		...ProductPagination
+	}
+}

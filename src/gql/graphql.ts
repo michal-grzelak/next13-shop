@@ -10782,23 +10782,23 @@ export type ProductsListGetQueryVariables = Exact<{
 
 export type ProductsListGetQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
 
-export type ProductsListGetByCategoryIdQueryVariables = Exact<{
+export type ProductsListGetByCategorySlugQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   skip: Scalars['Int']['input'];
-  categoryId: Scalars['ID']['input'];
+  categorySlug: Scalars['String']['input'];
 }>;
 
 
-export type ProductsListGetByCategoryIdQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
+export type ProductsListGetByCategorySlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
 
-export type ProductsListGetByCollectionIdQueryVariables = Exact<{
+export type ProductsListGetByCollectionSlugQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   skip: Scalars['Int']['input'];
-  collectionId: Scalars['ID']['input'];
+  collectionSlug: Scalars['String']['input'];
 }>;
 
 
-export type ProductsListGetByCollectionIdQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
+export type ProductsListGetByCollectionSlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -10962,12 +10962,12 @@ fragment ProductPagination on ProductConnection {
     pageSize
   }
 }`) as unknown as TypedDocumentString<ProductsListGetQuery, ProductsListGetQueryVariables>;
-export const ProductsListGetByCategoryIdDocument = new TypedDocumentString(`
-    query ProductsListGetByCategoryId($first: Int!, $skip: Int!, $categoryId: ID!) {
+export const ProductsListGetByCategorySlugDocument = new TypedDocumentString(`
+    query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {
   products(
     first: $first
     skip: $skip
-    where: {categories_some: {id: $categoryId}}
+    where: {categories_some: {slug: $categorySlug}}
   ) {
     ...Product
   }
@@ -10998,13 +10998,13 @@ fragment ProductPagination on ProductConnection {
   pageInfo {
     pageSize
   }
-}`) as unknown as TypedDocumentString<ProductsListGetByCategoryIdQuery, ProductsListGetByCategoryIdQueryVariables>;
-export const ProductsListGetByCollectionIdDocument = new TypedDocumentString(`
-    query ProductsListGetByCollectionId($first: Int!, $skip: Int!, $collectionId: ID!) {
+}`) as unknown as TypedDocumentString<ProductsListGetByCategorySlugQuery, ProductsListGetByCategorySlugQueryVariables>;
+export const ProductsListGetByCollectionSlugDocument = new TypedDocumentString(`
+    query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {
   products(
     first: $first
     skip: $skip
-    where: {collections_some: {id: $collectionId}}
+    where: {collections_some: {slug: $collectionSlug}}
   ) {
     ...Product
   }
@@ -11035,4 +11035,4 @@ fragment ProductPagination on ProductConnection {
   pageInfo {
     pageSize
   }
-}`) as unknown as TypedDocumentString<ProductsListGetByCollectionIdQuery, ProductsListGetByCollectionIdQueryVariables>;
+}`) as unknown as TypedDocumentString<ProductsListGetByCollectionSlugQuery, ProductsListGetByCollectionSlugQueryVariables>;
