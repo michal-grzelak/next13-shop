@@ -20,6 +20,7 @@
 			}
 		],
 		"paths": {
+			"@providers/*": ["./src/providers/*"],
 			"@gql/*": ["./src/gql/*"],
 			"@components/*": ["./src/components/*"],
 			"@ui/*": ["./src/ui/*"],

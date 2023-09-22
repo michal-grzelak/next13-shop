@@ -10765,7 +10765,7 @@ export type ProductFragment = { id: string, name: string, description: string, p
 
 export type ProductCategoryFragment = { name: string, description?: string | null, slug: string };
 
-export type ProductDetailsFragment = { id: string, name: string, description: string, price: number, variants: Array<{ name: string, color: ProductColor, size: ProductSize } | {}>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> };
+export type ProductDetailsFragment = { id: string, name: string, description: string, price: number, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> };
 
 export type ProductPaginationFragment = { aggregate: { count: number }, pageInfo: { pageSize?: number | null } };
 
@@ -10774,7 +10774,7 @@ export type ProductGetQueryVariables = Exact<{
 }>;
 
 
-export type ProductGetQuery = { product?: { id: string, name: string, description: string, price: number, variants: Array<{ name: string, color: ProductColor, size: ProductSize } | {}>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null };
+export type ProductGetQuery = { product?: { id: string, name: string, description: string, price: number, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null };
 
 export type ProductsListGetQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -10878,7 +10878,18 @@ export const ProductDetailsFragmentDoc = new TypedDocumentString(`
     fragment ProductDetails on Product {
   ...Product
   variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
     ... on ProductSizeColorVariant {
+      id
       name
       color
       size
@@ -10972,7 +10983,18 @@ fragment ProductCategory on Category {
 fragment ProductDetails on Product {
   ...Product
   variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
     ... on ProductSizeColorVariant {
+      id
       name
       color
       size
