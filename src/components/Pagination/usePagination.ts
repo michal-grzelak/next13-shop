@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { type Route } from "next"
+import { usePathname } from "next/navigation"
 import { type ReactNode } from "react"
 
 const DISPLAY_COUNT = 1
@@ -18,6 +21,8 @@ export const usePagination = ({
 	pages: number
 	displayCount?: number
 }) => {
+	const pathname = usePathname()
+
 	const isPrevious = page > 1
 	const isNext = page < pages
 
@@ -34,6 +39,15 @@ export const usePagination = ({
 	const lastDisplayedPage = Math.min(page + displayCount, pages - 1)
 	const displayedPages = lastDisplayedPage - firstDisplayedPage + 1
 
+	const createPageLink = (page: number): Route => {
+		const urlComponents = pathname.split("/")
+		urlComponents.pop()
+
+		const pageUrl = `${urlComponents.join("/")}/${page}`
+
+		return pageUrl as Route
+	}
+
 	return {
 		pagination: [
 			{ children: "Previous", page: page - 1, disabled: !isPrevious },
@@ -48,5 +62,6 @@ export const usePagination = ({
 			...(pages > 1 ? [{ children: pages, page: pages, disabled: pages === page }] : []),
 			{ children: "Next", page: page + 1, disabled: !isNext },
 		] as Page[],
+		createPageLink,
 	}
 }
