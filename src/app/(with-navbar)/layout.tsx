@@ -7,6 +7,7 @@ import { ActiveLink } from "@ui/ActiveLink"
 const routes = [
 	{ href: "/", content: "Home" },
 	{ href: "/products", content: "All", exact: false },
+	{ href: "/categories", content: "Categories", exact: false },
 ]
 
 export default function NavLayout({ children }: { children: ReactNode }) {
