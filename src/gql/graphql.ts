@@ -10747,6 +10747,15 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CategoriesListGetQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesListGetQuery = { categories: Array<{ id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> }>, categoriesConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
+
+export type CategoryFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
+
+export type CategoryPaginationFragment = { aggregate: { count: number }, pageInfo: { pageSize?: number | null } };
+
 export type ProductFragment = { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> };
 
 export type ProductCategoryFragment = { name: string, description?: string | null };
@@ -10782,6 +10791,29 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const CategoryFragmentDoc = new TypedDocumentString(`
+    fragment Category on Category {
+  id
+  name
+  slug
+  products(first: 1) {
+    name
+    images(first: 1) {
+      url
+    }
+  }
+}
+    `, {"fragmentName":"Category"}) as unknown as TypedDocumentString<CategoryFragment, unknown>;
+export const CategoryPaginationFragmentDoc = new TypedDocumentString(`
+    fragment CategoryPagination on CategoryConnection {
+  aggregate {
+    count
+  }
+  pageInfo {
+    pageSize
+  }
+}
+    `, {"fragmentName":"CategoryPagination"}) as unknown as TypedDocumentString<CategoryPaginationFragment, unknown>;
 export const ProductCategoryFragmentDoc = new TypedDocumentString(`
     fragment ProductCategory on Category {
   name
@@ -10815,6 +10847,34 @@ export const ProductPaginationFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProductPagination"}) as unknown as TypedDocumentString<ProductPaginationFragment, unknown>;
+export const CategoriesListGetDocument = new TypedDocumentString(`
+    query CategoriesListGet {
+  categories {
+    ...Category
+  }
+  categoriesConnection {
+    ...CategoryPagination
+  }
+}
+    fragment Category on Category {
+  id
+  name
+  slug
+  products(first: 1) {
+    name
+    images(first: 1) {
+      url
+    }
+  }
+}
+fragment CategoryPagination on CategoryConnection {
+  aggregate {
+    count
+  }
+  pageInfo {
+    pageSize
+  }
+}`) as unknown as TypedDocumentString<CategoriesListGetQuery, CategoriesListGetQueryVariables>;
 export const ProductGetDocument = new TypedDocumentString(`
     query ProductGet($productId: ID!) {
   product(where: {id: $productId}) {
