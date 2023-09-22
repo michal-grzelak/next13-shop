@@ -1,3 +1,4 @@
+import { CategoryList } from "@components/Category"
 import { CategoryService } from "@services/CategoryService"
 
 export default async function Categories() {
@@ -5,5 +6,9 @@ export default async function Categories() {
 
 	const categories = await categoryService.getCategories()
 
-	return <section className="p-4">{JSON.stringify(categories)}</section>
+	return (
+		<section className="p-4">
+			<CategoryList categories={categories} />
+		</section>
+	)
 }
