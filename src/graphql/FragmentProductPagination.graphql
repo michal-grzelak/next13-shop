@@ -1,0 +1,8 @@
+fragment ProductPagination on ProductConnection {
+	aggregate {
+		count
+	}
+	pageInfo {
+		pageSize
+	}
+}

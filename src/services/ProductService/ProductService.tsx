@@ -1,36 +1,52 @@
-import { type ProductFragment, ProductsGetListDocument, ProductGetDocument } from "@/gql/graphql"
+import {
+	type ProductFragment,
+	ProductsListGetDocument,
+	ProductGetDocument,
+	type ProductPaginationFragment,
+} from "@/gql/graphql"
 import { DEFAULT_PAGE_SIZE } from "@services/constants"
 import { type Pagination, type Product } from "@types"
 import { executeGraphql } from "@services/graphql"
 
 const mapGraphqlProductToProduct = (product: ProductFragment): Product => {
 	return {
-		id: product.id ?? "",
-		title: product.attributes?.name ?? "",
-		description: product.attributes?.description ?? "",
-		price: product.attributes?.price ?? 0,
-		category: product.attributes?.categories?.data[0].attributes?.name ?? "",
-		image: {
-			url: product.attributes?.images?.data[0].attributes?.url ?? "",
-			alt: product.attributes?.images?.data[0].attributes?.alternativeText ?? "",
-		},
-		rating: product.attributes?.weightedRating ?? 0,
+		id: product.id,
+		title: product.name,
+		description: product.description,
+		price: product.price,
+		categories: product.categories,
+		image: product.images[0]?.url ?? "#",
 	}
 }
 
+const mapGraphqlPaginationToPagination = ({
+	page,
+	paginationMeta,
+}: {
+	paginationMeta: ProductPaginationFragment
+	page: number
+}): Pagination<unknown>["meta"] => ({
+	page,
+	pageCount: paginationMeta.aggregate.count,
+	pageSize: paginationMeta.pageInfo.pageSize ?? DEFAULT_PAGE_SIZE,
+})
+
 export class ProductService {
 	async getProducts({ page }: { page: number }): Promise<Pagination<Product>> {
-		const res = await executeGraphql(ProductsGetListDocument, {
-			pagination: { page, pageSize: DEFAULT_PAGE_SIZE },
+		const skip = (page - 1) * DEFAULT_PAGE_SIZE
+
+		const res = await executeGraphql(ProductsListGetDocument, {
+			first: DEFAULT_PAGE_SIZE,
+			skip,
 		})
 
-		if (!res.products?.data) {
+		if (!res.products) {
 			return Promise.resolve({ data: [], meta: { page, pageCount: 0, pageSize: 0, total: 0 } })
 		}
 
 		return {
-			meta: res.products.meta.pagination,
-			data: res.products.data.map(mapGraphqlProductToProduct),
+			meta: mapGraphqlPaginationToPagination({ page, paginationMeta: res.productsConnection }),
+			data: res.products.map(mapGraphqlProductToProduct),
 		}
 	}
 
@@ -39,10 +55,10 @@ export class ProductService {
 			productId: id,
 		})
 
-		if (!res.product?.data) {
+		if (!res.product) {
 			return null
 		}
 
-		return mapGraphqlProductToProduct(res.product.data)
+		return mapGraphqlProductToProduct(res.product)
 	}
 }

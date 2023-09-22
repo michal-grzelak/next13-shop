@@ -4,12 +4,11 @@ export const executeGraphql = async <TResult, TVariables>(
 	query: TypedDocumentString<TResult, TVariables>,
 	variables: TVariables,
 ): Promise<TResult> => {
-	const response = await fetch(process.env.GRAPHQL_URL, {
+	const response = await fetch(process.env.API_URL, {
 		method: "POST",
 		body: JSON.stringify({ query, variables }),
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${process.env.API_TOKEN}`,
 		},
 	})
 

@@ -1,24 +1,12 @@
-fragment Product on ProductEntity {
+fragment Product on Product {
 	id
-	attributes {
-		name
-		description
-		weightedRating
-		price
-		images {
-			data {
-				attributes {
-					alternativeText
-					url
-				}
-			}
-		}
-		categories {
-			data {
-				attributes {
-					name
-				}
-			}
-		}
+	name
+	description
+	price
+	images(first: 1) {
+		url
+	}
+	categories {
+		...ProductCategory
 	}
 }

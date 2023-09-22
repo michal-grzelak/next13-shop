@@ -1,7 +1,5 @@
-query ProductGet($productId: ID) {
-	product(id: $productId) {
-		data {
-			...Product
-		}
+query ProductGet($productId: ID!) {
+	product(where: { id: $productId }) {
+		...Product
 	}
 }
