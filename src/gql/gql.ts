@@ -25,6 +25,7 @@ const documents = {
     "query ProductsListGet($first: Int!, $skip: Int!) {\n  products(first: $first, skip: $skip) {\n    ...Product\n  }\n  productsConnection {\n    ...ProductPagination\n  }\n}": types.ProductsListGetDocument,
     "query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCategorySlugDocument,
     "query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {collections_some: {slug: $collectionSlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCollectionSlugDocument,
+    "query ProductsListRelatedGet($categorySlug: String!, $collectionSlug: String!) {\n  products(\n    first: 4\n    where: {collections_some: {slug: $collectionSlug}, categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n}": types.ProductsListRelatedGetDocument,
 };
 
 /**
@@ -71,6 +72,10 @@ export function graphql(source: "query ProductsListGetByCategorySlug($first: Int
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {collections_some: {slug: $collectionSlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {\n    ...ProductPagination\n  }\n}"): typeof import('./graphql').ProductsListGetByCollectionSlugDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductsListRelatedGet($categorySlug: String!, $collectionSlug: String!) {\n  products(\n    first: 4\n    where: {collections_some: {slug: $collectionSlug}, categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n}"): typeof import('./graphql').ProductsListRelatedGetDocument;
 
 
 export function graphql(source: string) {

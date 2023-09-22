@@ -10800,6 +10800,14 @@ export type ProductsListGetByCollectionSlugQueryVariables = Exact<{
 
 export type ProductsListGetByCollectionSlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
 
+export type ProductsListRelatedGetQueryVariables = Exact<{
+  categorySlug: Scalars['String']['input'];
+  collectionSlug: Scalars['String']['input'];
+}>;
+
+
+export type ProductsListRelatedGetQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -11036,3 +11044,28 @@ fragment ProductPagination on ProductConnection {
     pageSize
   }
 }`) as unknown as TypedDocumentString<ProductsListGetByCollectionSlugQuery, ProductsListGetByCollectionSlugQueryVariables>;
+export const ProductsListRelatedGetDocument = new TypedDocumentString(`
+    query ProductsListRelatedGet($categorySlug: String!, $collectionSlug: String!) {
+  products(
+    first: 4
+    where: {collections_some: {slug: $collectionSlug}, categories_some: {slug: $categorySlug}}
+  ) {
+    ...Product
+  }
+}
+    fragment Product on Product {
+  id
+  name
+  description
+  price
+  images(first: 1) {
+    url
+  }
+  categories {
+    ...ProductCategory
+  }
+}
+fragment ProductCategory on Category {
+  name
+  description
+}`) as unknown as TypedDocumentString<ProductsListRelatedGetQuery, ProductsListRelatedGetQueryVariables>;
