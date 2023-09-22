@@ -1,4 +1,4 @@
-import { CategoryList } from "@components/Category"
+import { CategoryOrCollectionList } from "@components/CategoryOrCollection"
 import { CategoryService } from "@services/CategoryService"
 
 export default async function Categories() {
@@ -8,7 +8,7 @@ export default async function Categories() {
 
 	return (
 		<section className="p-4">
-			<CategoryList categories={categories} />
+			<CategoryOrCollectionList items={categories} urlPrefix="categories" />
 		</section>
 	)
 }

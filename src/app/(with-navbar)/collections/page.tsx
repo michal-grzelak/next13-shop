@@ -1,3 +1,4 @@
+import { CategoryOrCollectionList } from "@components/CategoryOrCollection"
 import { CollectionService } from "@services/CollectionService"
 
 export default async function Collections() {
@@ -5,5 +6,9 @@ export default async function Collections() {
 
 	const collections = await collectionService.getCollections()
 
-	return <section className="p-4">{JSON.stringify(collections)}</section>
+	return (
+		<section className="p-4">
+			<CategoryOrCollectionList items={collections} urlPrefix="collections" />
+		</section>
+	)
 }
