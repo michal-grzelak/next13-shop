@@ -1,6 +1,7 @@
 import clsx from "clsx"
 import { type Route } from "next"
 
+import { Searchbox } from "@components/Searchbox"
 import { ActiveLink } from "@ui/ActiveLink"
 
 export type NavbarRoute = { href: string; content: string; exact?: boolean }
@@ -19,6 +20,10 @@ export const Navbar = ({ routes }: Props) => {
 						</ActiveLink>
 					</li>
 				))}
+
+				<li className="ml-4">
+					<Searchbox url="/search" />
+				</li>
 			</ul>
 		</nav>
 	)

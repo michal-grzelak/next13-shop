@@ -7,6 +7,7 @@ import {
 	ProductsListGetByCollectionSlugDocument,
 	ProductsListRelatedGetDocument,
 	type ProductDetailsFragment,
+	ProductsListGetSearchDocument,
 } from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
@@ -91,6 +92,18 @@ export class ProductService {
 			meta: mapGraphqlPaginationToPagination({ page, paginationMeta: res.productsConnection }),
 			data: res.products,
 		}
+	}
+
+	async getProductsByName({ search }: { search: string }): Promise<ProductFragment[]> {
+		const res = await executeGraphql(ProductsListGetSearchDocument, {
+			search,
+		})
+
+		if (!res.products) {
+			return []
+		}
+
+		return res.products
 	}
 
 	async getRelatedProducts({ categorySlug }: { categorySlug: string }): Promise<ProductFragment[]> {
