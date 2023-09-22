@@ -3,6 +3,8 @@ import {
 	ProductGetDocument,
 	type ProductPaginationFragment,
 	ProductsListGetDocument,
+	ProductsListGetByCategorySlugDocument,
+	ProductsListGetByCollectionSlugDocument,
 } from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
@@ -27,6 +29,56 @@ export class ProductService {
 		const res = await executeGraphql(ProductsListGetDocument, {
 			first: DEFAULT_PAGE_SIZE,
 			skip,
+		})
+
+		if (!res.products) {
+			return Promise.resolve({ data: [], meta: { page, pageCount: 0, pageSize: 0, total: 0 } })
+		}
+
+		return {
+			meta: mapGraphqlPaginationToPagination({ page, paginationMeta: res.productsConnection }),
+			data: res.products,
+		}
+	}
+
+	async getProductsByCategorySlug({
+		page,
+		categorySlug,
+	}: {
+		page: number
+		categorySlug: string
+	}): Promise<Pagination<ProductFragment>> {
+		const skip = (page - 1) * DEFAULT_PAGE_SIZE
+
+		const res = await executeGraphql(ProductsListGetByCategorySlugDocument, {
+			first: DEFAULT_PAGE_SIZE,
+			skip,
+			categorySlug,
+		})
+
+		if (!res.products) {
+			return Promise.resolve({ data: [], meta: { page, pageCount: 0, pageSize: 0, total: 0 } })
+		}
+
+		return {
+			meta: mapGraphqlPaginationToPagination({ page, paginationMeta: res.productsConnection }),
+			data: res.products,
+		}
+	}
+
+	async getProductsByCollectionSlug({
+		page,
+		collectionSlug,
+	}: {
+		page: number
+		collectionSlug: string
+	}): Promise<Pagination<ProductFragment>> {
+		const skip = (page - 1) * DEFAULT_PAGE_SIZE
+
+		const res = await executeGraphql(ProductsListGetByCollectionSlugDocument, {
+			first: DEFAULT_PAGE_SIZE,
+			skip,
+			collectionSlug,
 		})
 
 		if (!res.products) {
