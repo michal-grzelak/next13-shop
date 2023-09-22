@@ -1,0 +1,8 @@
+fragment CollectionPagination on CollectionConnection {
+	aggregate {
+		count
+	}
+	pageInfo {
+		pageSize
+	}
+}

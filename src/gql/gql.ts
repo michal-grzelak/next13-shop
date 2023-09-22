@@ -15,8 +15,11 @@ import * as types from './graphql';
  */
 const documents = {
     "query CategoriesListGet {\n  categories {\n    ...Category\n  }\n  categoriesConnection {\n    ...CategoryPagination\n  }\n}": types.CategoriesListGetDocument,
+    "query CollectionListGet {\n  collections {\n    ...Collection\n  }\n  collectionsConnection {\n    ...CollectionPagination\n  }\n}": types.CollectionListGetDocument,
     "fragment Category on Category {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}": types.CategoryFragmentDoc,
     "fragment CategoryPagination on CategoryConnection {\n  aggregate {\n    count\n  }\n  pageInfo {\n    pageSize\n  }\n}": types.CategoryPaginationFragmentDoc,
+    "fragment Collection on Collection {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}": types.CollectionFragmentDoc,
+    "fragment CollectionPagination on CollectionConnection {\n  aggregate {\n    count\n  }\n  pageInfo {\n    pageSize\n  }\n}": types.CollectionPaginationFragmentDoc,
     "fragment Product on Product {\n  id\n  name\n  description\n  price\n  images(first: 1) {\n    url\n  }\n  categories {\n    ...ProductCategory\n  }\n}": types.ProductFragmentDoc,
     "fragment ProductCategory on Category {\n  name\n  description\n}": types.ProductCategoryFragmentDoc,
     "fragment ProductPagination on ProductConnection {\n  aggregate {\n    count\n  }\n  pageInfo {\n    pageSize\n  }\n}": types.ProductPaginationFragmentDoc,
@@ -31,11 +34,23 @@ export function graphql(source: "query CategoriesListGet {\n  categories {\n    
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "query CollectionListGet {\n  collections {\n    ...Collection\n  }\n  collectionsConnection {\n    ...CollectionPagination\n  }\n}"): typeof import('./graphql').CollectionListGetDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "fragment Category on Category {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}"): typeof import('./graphql').CategoryFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "fragment CategoryPagination on CategoryConnection {\n  aggregate {\n    count\n  }\n  pageInfo {\n    pageSize\n  }\n}"): typeof import('./graphql').CategoryPaginationFragmentDoc;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "fragment Collection on Collection {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}"): typeof import('./graphql').CollectionFragmentDoc;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "fragment CollectionPagination on CollectionConnection {\n  aggregate {\n    count\n  }\n  pageInfo {\n    pageSize\n  }\n}"): typeof import('./graphql').CollectionPaginationFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

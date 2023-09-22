@@ -1,0 +1,8 @@
+query CollectionListGet {
+	collections {
+		...Collection
+	}
+	collectionsConnection {
+		...CollectionPagination
+	}
+}
