@@ -10786,6 +10786,24 @@ export type ProductsListGetQueryVariables = Exact<{
 
 export type ProductsListGetQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
 
+export type ProductsListGetByCategoryIdQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
+  categoryId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductsListGetByCategoryIdQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
+
+export type ProductsListGetByCollectionIdQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
+  collectionId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductsListGetByCollectionIdQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null }> }>, productsConnection: { aggregate: { count: number }, pageInfo: { pageSize?: number | null } } };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -10990,3 +11008,77 @@ fragment ProductPagination on ProductConnection {
     pageSize
   }
 }`) as unknown as TypedDocumentString<ProductsListGetQuery, ProductsListGetQueryVariables>;
+export const ProductsListGetByCategoryIdDocument = new TypedDocumentString(`
+    query ProductsListGetByCategoryId($first: Int!, $skip: Int!, $categoryId: ID!) {
+  products(
+    first: $first
+    skip: $skip
+    where: {categories_some: {id: $categoryId}}
+  ) {
+    ...Product
+  }
+  productsConnection {
+    ...ProductPagination
+  }
+}
+    fragment Product on Product {
+  id
+  name
+  description
+  price
+  images(first: 1) {
+    url
+  }
+  categories {
+    ...ProductCategory
+  }
+}
+fragment ProductCategory on Category {
+  name
+  description
+}
+fragment ProductPagination on ProductConnection {
+  aggregate {
+    count
+  }
+  pageInfo {
+    pageSize
+  }
+}`) as unknown as TypedDocumentString<ProductsListGetByCategoryIdQuery, ProductsListGetByCategoryIdQueryVariables>;
+export const ProductsListGetByCollectionIdDocument = new TypedDocumentString(`
+    query ProductsListGetByCollectionId($first: Int!, $skip: Int!, $collectionId: ID!) {
+  products(
+    first: $first
+    skip: $skip
+    where: {collections_some: {id: $collectionId}}
+  ) {
+    ...Product
+  }
+  productsConnection {
+    ...ProductPagination
+  }
+}
+    fragment Product on Product {
+  id
+  name
+  description
+  price
+  images(first: 1) {
+    url
+  }
+  categories {
+    ...ProductCategory
+  }
+}
+fragment ProductCategory on Category {
+  name
+  description
+}
+fragment ProductPagination on ProductConnection {
+  aggregate {
+    count
+  }
+  pageInfo {
+    pageSize
+  }
+}`) as unknown as TypedDocumentString<ProductsListGetByCollectionIdQuery, ProductsListGetByCollectionIdQueryVariables>;

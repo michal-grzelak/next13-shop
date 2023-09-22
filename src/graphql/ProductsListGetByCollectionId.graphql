@@ -1,0 +1,8 @@
+query ProductsListGetByCollectionId($first: Int!, $skip: Int!, $collectionId: ID!) {
+	products(first: $first, skip: $skip, where: { collections_some: { id: $collectionId } }) {
+		...Product
+	}
+	productsConnection {
+		...ProductPagination
+	}
+}
