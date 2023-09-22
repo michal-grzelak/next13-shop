@@ -1,4 +1,5 @@
 import Image from "next/image"
+
 import { type ProductFragment } from "@gql/graphql"
 
 type Props = {

@@ -26,7 +26,12 @@
 					"index",
 					"object",
 					"type"
-				]
+				],
+				"newlines-between": "always",
+				"alphabetize": {
+					"order": "asc",
+					"caseInsensitive": true
+				}
 			}
 		],
 		// no let exports

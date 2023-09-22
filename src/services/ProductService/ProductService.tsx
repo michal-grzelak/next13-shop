@@ -1,12 +1,12 @@
 import {
 	type ProductFragment,
-	ProductsListGetDocument,
 	ProductGetDocument,
 	type ProductPaginationFragment,
+	ProductsListGetDocument,
 } from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE } from "@services/constants"
-import { type Pagination } from "@types"
 import { executeGraphql } from "@services/graphql"
+import { type Pagination } from "@types"
 
 const mapGraphqlPaginationToPagination = ({
 	page,

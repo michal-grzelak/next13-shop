@@ -1,6 +1,7 @@
-import { type ReactNode } from "react"
-import { type Route } from "next"
 import clsx from "clsx"
+import { type Route } from "next"
+import { type ReactNode } from "react"
+
 import { ActiveLink } from "@ui/ActiveLink"
 
 const routes = [

@@ -1,5 +1,7 @@
 import Link from "next/link"
+
 import { type ProductFragment } from "@gql/graphql"
+
 import { ProductImage } from "./ProductImage"
 import { ProductPrice } from "./ProductPrice"
 

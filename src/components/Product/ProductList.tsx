@@ -1,4 +1,5 @@
 import { type ProductFragment } from "@gql/graphql"
+
 import { ProductItem } from "./ProductItem"
 
 type Props = {

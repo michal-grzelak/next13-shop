@@ -1,10 +1,10 @@
 "use client"
 
+import clsx from "clsx"
 import { type Route } from "next"
 import Link from "next/link"
-import { type ReactNode } from "react"
-import clsx from "clsx"
 import { usePathname } from "next/navigation"
+import { type ReactNode } from "react"
 
 type Props<T extends string> = {
 	href: Route<T>
