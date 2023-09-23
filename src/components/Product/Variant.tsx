@@ -20,10 +20,10 @@ export const Variant = ({ variant }: Props) => {
 		<li
 			onClick={handleOnClick}
 			className={clsx(
-				"block rounded  bg-transparent px-3 py-1.5 text-sm  transition-all duration-300 ",
+				"block rounded  bg-transparent px-3 py-1.5 text-sm  transition-all duration-300",
 				{
-					"bg-neutral-100 text-black hover:bg-neutral-300": !isSelected,
-					"bg-neutral-500 text-white": isSelected,
+					"cursor-pointer bg-neutral-100 text-black hover:bg-neutral-300": !isSelected,
+					"bg-neutral-600 text-white outline outline-1 outline-gray-700 ": isSelected,
 				},
 			)}
 		>

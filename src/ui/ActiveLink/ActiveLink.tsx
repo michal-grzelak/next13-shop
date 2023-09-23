@@ -22,6 +22,7 @@ export const ActiveLink = <T extends string>({ href, children, exact = true }: P
 			className={clsx("text-blue-500 hover:font-bold", {
 				"border-b-2 border-current text-blue-950": isActive,
 			})}
+			aria-current={isActive ? true : undefined}
 		>
 			{children}
 		</Link>

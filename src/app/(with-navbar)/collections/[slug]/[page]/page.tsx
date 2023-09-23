@@ -1,9 +1,26 @@
+import { type Metadata } from "next"
+
 import { Pagination } from "@components/Pagination"
 import { ProductList } from "@components/Product"
 import { ProductService } from "@services"
+import { PageHeading } from "@ui/Heading"
 
 type Props = {
 	params: { slug: string; page: string }
+}
+
+export async function generateMetadata({ params: { slug } }: Props): Promise<Metadata> {
+	const title = slug.toUpperCase()
+	const description = `Products in collection: ${title}`
+
+	return {
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+		},
+	}
 }
 
 export default async function ProductsByCollection({ params: { page, slug } }: Props) {
@@ -15,9 +32,11 @@ export default async function ProductsByCollection({ params: { page, slug } }: P
 	})
 
 	return (
-		<section className="p-4">
+		<>
+			<PageHeading>Products in collection: {slug.toUpperCase()}</PageHeading>
+
 			<ProductList products={products}></ProductList>
 			<Pagination page={pageNumber} pages={meta.pageCount} />
-		</section>
+		</>
 	)
 }

@@ -22,9 +22,9 @@ export default async function Products({ params: { page } }: Props) {
 	})
 
 	return (
-		<section className="p-4">
+		<>
 			<ProductList products={products}></ProductList>
 			<Pagination page={pageNumber} pages={meta.pageCount} />
-		</section>
+		</>
 	)
 }

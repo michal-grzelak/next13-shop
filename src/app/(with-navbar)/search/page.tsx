@@ -12,8 +12,8 @@ export default async function Products({ searchParams: { query } }: Props) {
 	})
 
 	return (
-		<section className="p-4">
+		<>
 			<ProductList products={products}></ProductList>
-		</section>
+		</>
 	)
 }
