@@ -1,53 +1,73 @@
-import { notFound } from "next/navigation";
-import { type Metadata } from "next";
-import { ProductImage, ProductPrice } from "@components/Product";
-import { ProductService } from "@services";
+import { type Metadata } from "next"
+import { notFound } from "next/navigation"
+
+import { ProductImage, ProductList, ProductPrice } from "@components/Product"
+import { VariantList } from "@components/Product/VariantList"
+import { ProductProvider } from "@providers/ProductProvider"
+import { ProductService } from "@services"
 
 type Props = {
-	params: { productId: string };
-};
+	params: { productId: string }
+}
 
 export async function generateMetadata({ params: { productId } }: Props): Promise<Metadata> {
-	const productService = new ProductService();
-	const product = await productService.getProduct({ id: productId });
+	const productService = new ProductService()
+	const product = await productService.getProduct({ id: productId })
 
 	if (!product) {
-		return { title: "Product not found" };
+		return { title: "Product not found" }
 	}
 
+	const title = `${product.name} product`
+
 	return {
-		title: product.title,
+		title,
 		description: product.description,
 		openGraph: {
-			title: product.title,
+			title,
 			description: product.description,
-			images: [product.image],
+			images: product.images?.map((image) => image.url),
 		},
-	};
+	}
 }
 
 export default async function ProductPage({ params: { productId } }: Props) {
-	const productService = new ProductService();
-	const product = await productService.getProduct({ id: productId });
+	const productService = new ProductService()
+	const product = await productService.getProduct({ id: productId })
+	const relatedProducts = await productService.getRelatedProducts({
+		categorySlug: product?.categories?.[0]?.slug ?? "",
+	})
 
 	if (!product) {
-		return notFound();
+		return notFound()
 	}
 
 	return (
-		<article className="container mx-auto px-6">
-			<div className="md:flex md:items-center">
-				<ProductImage src={product.image} alt={product.title} />
+		<ProductProvider>
+			<article className="container mx-auto flex flex-col gap-24 px-6">
+				<div className="md:flex md:items-center">
+					<ProductImage product={product} />
 
-				<div className="mx-auto mt-5 w-full max-w-lg md:ml-8 md:mt-0 md:w-1/2">
-					<h1 className="text-lg uppercase text-gray-700">{product.title}</h1>
-					<ProductPrice price={product.price} />
-					<hr className="my-3" />
-					<section className="mt-2">
-						<p>{product.description}</p>
-					</section>
+					<div className="mx-auto mt-5 w-full max-w-lg md:ml-8 md:mt-0 md:w-1/2">
+						<h1 className="text-lg uppercase text-gray-700">{product.name}</h1>
+						<ProductPrice price={product.price} />
+						<hr className="my-3" />
+
+						<section className="mt-2">
+							<p>{product.description}</p>
+						</section>
+
+						<section className="mt-2">
+							<VariantList variants={product.variants} />
+						</section>
+					</div>
 				</div>
-			</div>
-		</article>
-	);
+
+				<section data-testid="related-products">
+					<h2 className="text-lg uppercase text-gray-700">Related products</h2>
+					<ProductList products={relatedProducts} />
+				</section>
+			</article>
+		</ProductProvider>
+	)
 }

@@ -1,9 +1,10 @@
-import { type Product } from "@types";
-import { ProductItem } from "./ProductItem";
+import { type ProductFragment } from "@gql/graphql"
+
+import { ProductItem } from "./ProductItem"
 
 type Props = {
-	products: Product[];
-};
+	products: ProductFragment[]
+}
 
 export const ProductList = ({ products }: Props) => {
 	return (
@@ -15,5 +16,5 @@ export const ProductList = ({ products }: Props) => {
 				<ProductItem key={product.id} product={product}></ProductItem>
 			))}
 		</ul>
-	);
-};
+	)
+}

@@ -20,6 +20,8 @@
 			}
 		],
 		"paths": {
+			"@providers/*": ["./src/providers/*"],
+			"@gql/*": ["./src/gql/*"],
 			"@components/*": ["./src/components/*"],
 			"@ui/*": ["./src/ui/*"],
 			"@services": ["./src/services"],
@@ -29,6 +31,6 @@
 			"@/*": ["./src/*"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".graphqlrc.ts"],
 	"exclude": ["node_modules"]
 }

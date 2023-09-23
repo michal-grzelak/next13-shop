@@ -1,5 +1,4 @@
 export type Pagination<D> = {
-	page: number;
-	pages: number;
-	data: D[];
-};
+	meta: { page: number; pageCount: number; pageSize: number }
+	data: D[]
+}

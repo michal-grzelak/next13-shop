@@ -1,5 +1,5 @@
-import { PageLoader } from "@ui/Loader";
+import { PageLoader } from "@ui/Loader"
 
 export default function Loader() {
-	return <PageLoader />;
+	return <PageLoader />
 }

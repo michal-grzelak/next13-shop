@@ -1,0 +1,5 @@
+query ProductsListRelatedGet($categorySlug: String) {
+	products(first: 4, where: { categories_some: { slug: $categorySlug } }) {
+		...Product
+	}
+}

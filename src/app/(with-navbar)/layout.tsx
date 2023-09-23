@@ -1,29 +1,22 @@
-import { type ReactNode } from "react";
-import { type Route } from "next";
-import clsx from "clsx";
-import { ActiveLink } from "@ui/ActiveLink";
+import { type ReactNode } from "react"
 
-const routes = [
+import { Navbar, type NavbarRoute } from "@components/Navbar"
+
+const routes: NavbarRoute[] = [
 	{ href: "/", content: "Home" },
 	{ href: "/products", content: "All", exact: false },
-];
+	{ href: "/collections", content: "Collections", exact: true },
+	{ href: "/collections/summer-vibes", content: "SUMMER-VIBES", exact: false },
+	{ href: "/categories", content: "Categories", exact: true },
+	{ href: "/categories/accessories", content: "ACCESSORIES", exact: false },
+]
 
 export default function NavLayout({ children }: { children: ReactNode }) {
 	return (
 		<>
-			<nav>
-				<ul className="flex px-3 py-2">
-					{routes.map((route, index) => (
-						<li key={`navigation-item-${index}`} className={clsx({ "ml-5": index > 0 })}>
-							<ActiveLink href={route.href as Route} exact={route.exact}>
-								{route.content}
-							</ActiveLink>
-						</li>
-					))}
-				</ul>
-			</nav>
+			<Navbar routes={routes} />
 
-			<main>{children}</main>
+			<main className="mt-4 flex flex-col gap-4">{children}</main>
 		</>
-	);
+	)
 }

@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import { PaginationButton } from "./PaginationButton";
-import { usePagination } from "./usePagination";
+import { PaginationButton } from "./PaginationButton"
+import { usePagination } from "./usePagination"
 
-type Props = { page: number; pages: number; ariaLabel?: string };
+type Props = { page: number; pages: number; ariaLabel?: string }
 
 export const Pagination = ({ page, pages, ariaLabel = "pagination-list" }: Props) => {
-	const { pagination } = usePagination({ page, pages });
+	const { pagination, createPageLink } = usePagination({ page, pages })
 
 	return (
 		<nav aria-label={ariaLabel}>
@@ -14,7 +14,7 @@ export const Pagination = ({ page, pages, ariaLabel = "pagination-list" }: Props
 				{pagination.map((pageItem, index) => (
 					<li key={`pagination-item-${index}`}>
 						<PaginationButton
-							href={pageItem.disabled ? "#" : `/products/${pageItem.page}`}
+							href={pageItem.disabled ? "#" : createPageLink(pageItem.page!)}
 							disabled={pageItem.disabled}
 							selected={page === pageItem.page}
 						>
@@ -24,5 +24,5 @@ export const Pagination = ({ page, pages, ariaLabel = "pagination-list" }: Props
 				))}
 			</ul>
 		</nav>
-	);
-};
+	)
+}

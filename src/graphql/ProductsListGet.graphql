@@ -1,0 +1,8 @@
+query ProductsListGet($first: Int!, $skip: Int!) {
+	products(first: $first, skip: $skip) {
+		...Product
+	}
+	productsConnection {
+		...ProductPagination
+	}
+}

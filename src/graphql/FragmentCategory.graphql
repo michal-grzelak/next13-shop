@@ -1,0 +1,11 @@
+fragment Category on Category {
+	id
+	name
+	slug
+	products(first: 1) {
+		name
+		images(first: 1) {
+			url
+		}
+	}
+}

@@ -1,0 +1,5 @@
+query CategoriesListGet {
+	categories {
+		...Category
+	}
+}
