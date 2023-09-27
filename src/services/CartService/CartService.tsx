@@ -1,3 +1,5 @@
+import { cookies } from "next/headers"
+
 import { CartCreateDocument, CartGetByIdDocument, type OrderFragment } from "@gql/graphql"
 import { executeGraphql } from "@services/graphql"
 
@@ -20,5 +22,18 @@ export class CartService {
 		}
 
 		return res.createOrder
+	}
+
+	async getOrCreateCart(): Promise<OrderFragment | null> {
+		const cartId = cookies().get("cartId")?.value
+
+		if (cartId) {
+			const cart = await this.getCart({ id: cartId })
+			if (cart) {
+				return cart
+			}
+		}
+
+		return this.createCart()
 	}
 }
