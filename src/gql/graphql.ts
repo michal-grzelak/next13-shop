@@ -10747,6 +10747,11 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CartCreateMutation = { createOrder?: { id: string } | null };
+
 export type CardGetByIdQueryVariables = Exact<{
   cartId: Scalars['ID']['input'];
 }>;
@@ -10944,6 +10949,15 @@ export const ProductPaginationFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProductPagination"}) as unknown as TypedDocumentString<ProductPaginationFragment, unknown>;
+export const CartCreateDocument = new TypedDocumentString(`
+    mutation CartCreate {
+  createOrder(data: {total: 0}) {
+    ...Order
+  }
+}
+    fragment Order on Order {
+  id
+}`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
 export const CardGetByIdDocument = new TypedDocumentString(`
     query CardGetById($cartId: ID!) {
   orders(where: {id: $cartId}, stage: DRAFT) {
