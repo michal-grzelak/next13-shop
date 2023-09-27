@@ -10747,6 +10747,13 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CardGetByIdQueryVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+}>;
+
+
+export type CardGetByIdQuery = { orders: Array<{ id: string }> };
+
 export type CategoriesListGetQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -10760,6 +10767,8 @@ export type CollectionListGetQuery = { collections: Array<{ id: string, name: st
 export type CategoryFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
 
 export type CollectionFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
+
+export type OrderFragment = { id: string };
 
 export type ProductFragment = { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> };
 
@@ -10856,6 +10865,11 @@ export const CollectionFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"Collection"}) as unknown as TypedDocumentString<CollectionFragment, unknown>;
+export const OrderFragmentDoc = new TypedDocumentString(`
+    fragment Order on Order {
+  id
+}
+    `, {"fragmentName":"Order"}) as unknown as TypedDocumentString<OrderFragment, unknown>;
 export const ProductCategoryFragmentDoc = new TypedDocumentString(`
     fragment ProductCategory on Category {
   name
@@ -10930,6 +10944,15 @@ export const ProductPaginationFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProductPagination"}) as unknown as TypedDocumentString<ProductPaginationFragment, unknown>;
+export const CardGetByIdDocument = new TypedDocumentString(`
+    query CardGetById($cartId: ID!) {
+  orders(where: {id: $cartId}, stage: DRAFT) {
+    ...Order
+  }
+}
+    fragment Order on Order {
+  id
+}`) as unknown as TypedDocumentString<CardGetByIdQuery, CardGetByIdQueryVariables>;
 export const CategoriesListGetDocument = new TypedDocumentString(`
     query CategoriesListGet {
   categories {
