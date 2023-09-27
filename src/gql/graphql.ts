@@ -10751,10 +10751,12 @@ export type CartAddProductMutationVariables = Exact<{
   cartId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   total: Scalars['Int']['input'];
+  quantity: Scalars['Int']['input'];
+  orderItemId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type CartAddProductMutation = { createOrderItem?: { id: string } | null };
+export type CartAddProductMutation = { upsertOrderItem?: { id: string } | null };
 
 export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -10966,9 +10968,10 @@ export const ProductPaginationFragmentDoc = new TypedDocumentString(`
 }
     `, {"fragmentName":"ProductPagination"}) as unknown as TypedDocumentString<ProductPaginationFragment, unknown>;
 export const CartAddProductDocument = new TypedDocumentString(`
-    mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!) {
-  createOrderItem(
-    data: {quantity: 1, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $cartId}}}
+    mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!, $quantity: Int!, $orderItemId: ID) {
+  upsertOrderItem(
+    upsert: {create: {quantity: $quantity, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $cartId}}}, update: {quantity: $quantity, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $cartId}}}}
+    where: {id: $orderItemId}
   ) {
     ...CartOrderItem
   }

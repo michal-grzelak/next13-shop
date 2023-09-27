@@ -47,17 +47,20 @@ export class CartService {
 	async addProduct(
 		cartId: string,
 		{ id: productId, price }: Pick<ProductFragment, "id" | "price">,
+		{ quantity, orderItemId }: { quantity?: number; orderItemId?: string } | undefined = {},
 	): Promise<CartOrderItemFragment> {
 		const res = await executeGraphql(CartAddProductDocument, {
 			cartId,
 			productId,
 			total: price,
+			quantity: quantity ?? 1,
+			orderItemId,
 		})
 
-		if (!res.createOrderItem) {
+		if (!res.upsertOrderItem) {
 			throw new Error("Failed to add product to cart!")
 		}
 
-		return res.createOrderItem
+		return res.upsertOrderItem
 	}
 }
