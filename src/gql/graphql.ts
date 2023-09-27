@@ -10747,6 +10747,15 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CartAddProductMutationVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+  productId: Scalars['ID']['input'];
+  total: Scalars['Int']['input'];
+}>;
+
+
+export type CartAddProductMutation = { createOrderItem?: { id: string } | null };
+
 export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -10770,6 +10779,8 @@ export type CollectionListGetQueryVariables = Exact<{ [key: string]: never; }>;
 export type CollectionListGetQuery = { collections: Array<{ id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> }> };
 
 export type CartOrderFragment = { id: string };
+
+export type CartOrderItemFragment = { id: string };
 
 export type CategoryFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
 
@@ -10849,6 +10860,11 @@ export const CartOrderFragmentDoc = new TypedDocumentString(`
   id
 }
     `, {"fragmentName":"CartOrder"}) as unknown as TypedDocumentString<CartOrderFragment, unknown>;
+export const CartOrderItemFragmentDoc = new TypedDocumentString(`
+    fragment CartOrderItem on OrderItem {
+  id
+}
+    `, {"fragmentName":"CartOrderItem"}) as unknown as TypedDocumentString<CartOrderItemFragment, unknown>;
 export const CategoryFragmentDoc = new TypedDocumentString(`
     fragment Category on Category {
   id
@@ -10949,6 +10965,17 @@ export const ProductPaginationFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProductPagination"}) as unknown as TypedDocumentString<ProductPaginationFragment, unknown>;
+export const CartAddProductDocument = new TypedDocumentString(`
+    mutation CartAddProduct($cartId: ID!, $productId: ID!, $total: Int!) {
+  createOrderItem(
+    data: {quantity: 1, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $cartId}}}
+  ) {
+    ...CartOrderItem
+  }
+}
+    fragment CartOrderItem on OrderItem {
+  id
+}`) as unknown as TypedDocumentString<CartAddProductMutation, CartAddProductMutationVariables>;
 export const CartCreateDocument = new TypedDocumentString(`
     mutation CartCreate {
   createOrder(data: {total: 0}) {

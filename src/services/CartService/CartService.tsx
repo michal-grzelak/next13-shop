@@ -1,6 +1,13 @@
 import { cookies } from "next/headers"
 
-import { CartCreateDocument, CartGetByIdDocument, type CartOrderFragment } from "@gql/graphql"
+import {
+	CartCreateDocument,
+	CartGetByIdDocument,
+	type CartOrderItemFragment,
+	type CartOrderFragment,
+	type ProductFragment,
+	CartAddProductDocument,
+} from "@gql/graphql"
 import { executeGraphql } from "@services/graphql"
 
 export class CartService {
@@ -14,11 +21,11 @@ export class CartService {
 		return res.order
 	}
 
-	async createCart(): Promise<CartOrderFragment | null> {
+	async createCart(): Promise<CartOrderFragment> {
 		const res = await executeGraphql(CartCreateDocument, {})
 
 		if (!res.createOrder) {
-			return null
+			throw new Error("Failed to create cart!")
 		}
 
 		return res.createOrder
@@ -35,5 +42,22 @@ export class CartService {
 		}
 
 		return this.createCart()
+	}
+
+	async addProduct(
+		cartId: string,
+		{ id: productId, price }: Pick<ProductFragment, "id" | "price">,
+	): Promise<CartOrderItemFragment> {
+		const res = await executeGraphql(CartAddProductDocument, {
+			cartId,
+			productId,
+			total: price,
+		})
+
+		if (!res.createOrderItem) {
+			throw new Error("Failed to add product to cart!")
+		}
+
+		return res.createOrderItem
 	}
 }
