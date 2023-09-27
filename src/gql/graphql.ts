@@ -10769,11 +10769,11 @@ export type CollectionListGetQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CollectionListGetQuery = { collections: Array<{ id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> }> };
 
+export type CartOrderFragment = { id: string };
+
 export type CategoryFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
 
 export type CollectionFragment = { id: string, name: string, slug: string, products: Array<{ name: string, images: Array<{ url: string }> }> };
-
-export type OrderFragment = { id: string };
 
 export type ProductFragment = { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> };
 
@@ -10844,6 +10844,11 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const CartOrderFragmentDoc = new TypedDocumentString(`
+    fragment CartOrder on Order {
+  id
+}
+    `, {"fragmentName":"CartOrder"}) as unknown as TypedDocumentString<CartOrderFragment, unknown>;
 export const CategoryFragmentDoc = new TypedDocumentString(`
     fragment Category on Category {
   id
@@ -10870,11 +10875,6 @@ export const CollectionFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"Collection"}) as unknown as TypedDocumentString<CollectionFragment, unknown>;
-export const OrderFragmentDoc = new TypedDocumentString(`
-    fragment Order on Order {
-  id
-}
-    `, {"fragmentName":"Order"}) as unknown as TypedDocumentString<OrderFragment, unknown>;
 export const ProductCategoryFragmentDoc = new TypedDocumentString(`
     fragment ProductCategory on Category {
   name
@@ -10952,19 +10952,19 @@ export const ProductPaginationFragmentDoc = new TypedDocumentString(`
 export const CartCreateDocument = new TypedDocumentString(`
     mutation CartCreate {
   createOrder(data: {total: 0}) {
-    ...Order
+    ...CartOrder
   }
 }
-    fragment Order on Order {
+    fragment CartOrder on Order {
   id
 }`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($cartId: ID!) {
   order(where: {id: $cartId}, stage: DRAFT) {
-    ...Order
+    ...CartOrder
   }
 }
-    fragment Order on Order {
+    fragment CartOrder on Order {
   id
 }`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
 export const CategoriesListGetDocument = new TypedDocumentString(`

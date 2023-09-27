@@ -1,10 +1,10 @@
 import { cookies } from "next/headers"
 
-import { CartCreateDocument, CartGetByIdDocument, type OrderFragment } from "@gql/graphql"
+import { CartCreateDocument, CartGetByIdDocument, type CartOrderFragment } from "@gql/graphql"
 import { executeGraphql } from "@services/graphql"
 
 export class CartService {
-	async getCart({ id }: { id: string }): Promise<OrderFragment | null> {
+	async getCart({ id }: { id: string }): Promise<CartOrderFragment | null> {
 		const res = await executeGraphql(CartGetByIdDocument, { cartId: id })
 
 		if (!res.order) {
@@ -14,7 +14,7 @@ export class CartService {
 		return res.order
 	}
 
-	async createCart(): Promise<OrderFragment | null> {
+	async createCart(): Promise<CartOrderFragment | null> {
 		const res = await executeGraphql(CartCreateDocument, {})
 
 		if (!res.createOrder) {
@@ -24,7 +24,7 @@ export class CartService {
 		return res.createOrder
 	}
 
-	async getOrCreateCart(): Promise<OrderFragment | null> {
+	async getOrCreateCart(): Promise<CartOrderFragment | null> {
 		const cartId = cookies().get("cartId")?.value
 
 		if (cartId) {
