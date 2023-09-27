@@ -10752,12 +10752,12 @@ export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type CartCreateMutation = { createOrder?: { id: string } | null };
 
-export type CardGetByIdQueryVariables = Exact<{
+export type CartGetByIdQueryVariables = Exact<{
   cartId: Scalars['ID']['input'];
 }>;
 
 
-export type CardGetByIdQuery = { orders: Array<{ id: string }> };
+export type CartGetByIdQuery = { orders: Array<{ id: string }> };
 
 export type CategoriesListGetQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10958,15 +10958,15 @@ export const CartCreateDocument = new TypedDocumentString(`
     fragment Order on Order {
   id
 }`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
-export const CardGetByIdDocument = new TypedDocumentString(`
-    query CardGetById($cartId: ID!) {
+export const CartGetByIdDocument = new TypedDocumentString(`
+    query CartGetById($cartId: ID!) {
   orders(where: {id: $cartId}, stage: DRAFT) {
     ...Order
   }
 }
     fragment Order on Order {
   id
-}`) as unknown as TypedDocumentString<CardGetByIdQuery, CardGetByIdQueryVariables>;
+}`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
 export const CategoriesListGetDocument = new TypedDocumentString(`
     query CategoriesListGet {
   categories {
