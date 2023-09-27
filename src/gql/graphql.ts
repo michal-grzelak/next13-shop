@@ -10757,7 +10757,7 @@ export type CartGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type CartGetByIdQuery = { orders: Array<{ id: string }> };
+export type CartGetByIdQuery = { order?: { id: string } | null };
 
 export type CategoriesListGetQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10960,7 +10960,7 @@ export const CartCreateDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($cartId: ID!) {
-  orders(where: {id: $cartId}, stage: DRAFT) {
+  order(where: {id: $cartId}, stage: DRAFT) {
     ...Order
   }
 }

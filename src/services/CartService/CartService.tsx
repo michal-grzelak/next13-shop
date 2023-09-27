@@ -5,11 +5,11 @@ export class CartService {
 	async getCart({ id }: { id: string }): Promise<OrderFragment | null> {
 		const res = await executeGraphql(CartGetByIdDocument, { cartId: id })
 
-		if (!res.orders?.length) {
+		if (!res.order) {
 			return null
 		}
 
-		return res.orders[0]
+		return res.order
 	}
 
 	async createCart(): Promise<OrderFragment | null> {

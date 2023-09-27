@@ -15,7 +15,7 @@ import * as types from './graphql';
  */
 const documents = {
     "mutation CartCreate {\n  createOrder(data: {total: 0}) {\n    ...Order\n  }\n}": types.CartCreateDocument,
-    "query CartGetById($cartId: ID!) {\n  orders(where: {id: $cartId}, stage: DRAFT) {\n    ...Order\n  }\n}": types.CartGetByIdDocument,
+    "query CartGetById($cartId: ID!) {\n  order(where: {id: $cartId}, stage: DRAFT) {\n    ...Order\n  }\n}": types.CartGetByIdDocument,
     "query CategoriesListGet {\n  categories {\n    ...Category\n  }\n}": types.CategoriesListGetDocument,
     "query CollectionListGet {\n  collections {\n    ...Collection\n  }\n}": types.CollectionListGetDocument,
     "fragment Category on Category {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}": types.CategoryFragmentDoc,
@@ -40,7 +40,7 @@ export function graphql(source: "mutation CartCreate {\n  createOrder(data: {tot
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query CartGetById($cartId: ID!) {\n  orders(where: {id: $cartId}, stage: DRAFT) {\n    ...Order\n  }\n}"): typeof import('./graphql').CartGetByIdDocument;
+export function graphql(source: "query CartGetById($cartId: ID!) {\n  order(where: {id: $cartId}, stage: DRAFT) {\n    ...Order\n  }\n}"): typeof import('./graphql').CartGetByIdDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
