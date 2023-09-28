@@ -4,7 +4,8 @@ import { notFound } from "next/navigation"
 import { ProductImage, ProductList, ProductPrice } from "@components/Product"
 import { VariantList } from "@components/Product/VariantList"
 import { ProductProvider } from "@providers/ProductProvider"
-import { ProductService } from "@services"
+import { CartService, ProductService } from "@services"
+import { Button } from "@ui/Button"
 
 type Props = {
 	params: { productId: string }
@@ -42,6 +43,14 @@ export default async function ProductPage({ params: { productId } }: Props) {
 		return notFound()
 	}
 
+	async function addToCart() {
+		"use server"
+		const cartService = new CartService()
+
+		const cart = await cartService.getOrCreateCart()
+		await cartService.addProductHelper(cart, product!)
+	}
+
 	return (
 		<ProductProvider>
 			<article className="container mx-auto flex flex-col gap-24 px-6">
@@ -59,6 +68,12 @@ export default async function ProductPage({ params: { productId } }: Props) {
 
 						<section className="mt-2">
 							<VariantList variants={product.variants} />
+						</section>
+
+						<section className="mt-2">
+							<form action={addToCart}>
+								<Button>Add to Cart</Button>
+							</form>
 						</section>
 					</div>
 				</div>

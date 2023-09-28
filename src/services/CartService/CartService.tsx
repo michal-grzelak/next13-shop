@@ -41,7 +41,10 @@ export class CartService {
 			}
 		}
 
-		return this.createCart()
+		const cart = await this.createCart()
+		cookies().set("cartId", cart.id)
+
+		return cart
 	}
 
 	async addProduct(
