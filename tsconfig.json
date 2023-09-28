@@ -20,6 +20,8 @@
 			}
 		],
 		"paths": {
+			"@utils": ["./src/utils"],
+			"@utils/*": ["./src/utils/*"],
 			"@providers/*": ["./src/providers/*"],
 			"@gql/*": ["./src/gql/*"],
 			"@components/*": ["./src/components/*"],

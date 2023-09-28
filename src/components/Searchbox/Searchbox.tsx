@@ -4,19 +4,10 @@ import { type Route } from "next"
 import { useRouter, useSearchParams } from "next/navigation"
 import { type ChangeEventHandler } from "react"
 
+import { debounce } from "@utils/debounce"
+
 type Props = {
 	url: Route
-}
-
-const useDebounce = <TArgs,>(callback: (args: TArgs) => void, timeout: number) => {
-	let timer: NodeJS.Timeout
-
-	return (args: TArgs) => {
-		clearTimeout(timer)
-		timer = setTimeout(() => {
-			callback(args)
-		}, timeout)
-	}
 }
 
 export const Searchbox = ({ url }: Props) => {
@@ -27,7 +18,7 @@ export const Searchbox = ({ url }: Props) => {
 	const search = ({ value }: { value: string }) => {
 		router.push(`${url}?query=${value}`)
 	}
-	const debouncedSearch = useDebounce(search, 500)
+	const debouncedSearch = debounce(search, 500)
 
 	const handleOnChange: ChangeEventHandler<HTMLInputElement> = (event) => {
 		debouncedSearch({ value: event.target.value })

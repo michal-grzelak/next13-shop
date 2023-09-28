@@ -3,6 +3,7 @@
 import { experimental_useOptimistic as useOptimistic } from "react"
 
 import { FormButton } from "@ui/Button"
+import { debounce } from "@utils/debounce"
 
 import { setProductQuantity } from "./cartActions"
 
@@ -10,6 +11,8 @@ type Props = {
 	itemId: string
 	quantity: number
 }
+
+const handleSetQuantity = debounce(setProductQuantity, 200)
 
 export const ChangeQuantity = ({ quantity, itemId }: Props) => {
 	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(
@@ -21,25 +24,21 @@ export const ChangeQuantity = ({ quantity, itemId }: Props) => {
 		const newQuantity = optimisticQuantity - 1
 
 		setOptimisticQuantity(newQuantity)
-		await setProductQuantity(itemId, newQuantity)
+		handleSetQuantity(itemId, newQuantity)
 	}
 
 	const handleIncrement = async () => {
 		const newQuantity = optimisticQuantity + 1
 
 		setOptimisticQuantity(newQuantity)
-		await setProductQuantity(itemId, newQuantity)
+		handleSetQuantity(itemId, newQuantity)
 	}
 
 	return (
 		<form>
-			<FormButton formAction={handleDecrement} disablePending>
-				-
-			</FormButton>
+			<FormButton formAction={handleDecrement}>-</FormButton>
 			{optimisticQuantity}
-			<FormButton formAction={handleIncrement} disablePending>
-				+
-			</FormButton>
+			<FormButton formAction={handleIncrement}>+</FormButton>
 		</form>
 	)
 }
