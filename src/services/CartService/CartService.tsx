@@ -31,7 +31,7 @@ export class CartService {
 		return res.createOrder
 	}
 
-	async getOrCreateCart(): Promise<CartOrderFragment | null> {
+	async getOrCreateCart(): Promise<CartOrderFragment> {
 		const cartId = cookies().get("cartId")?.value
 
 		if (cartId) {
@@ -46,13 +46,13 @@ export class CartService {
 
 	async addProduct(
 		cartId: string,
-		{ id: productId, price }: Pick<ProductFragment, "id" | "price">,
-		{ quantity, orderItemId }: { quantity?: number; orderItemId?: string } | undefined = {},
+		productId: string,
+		{ quantity, total, orderItemId }: { quantity: number; total: number; orderItemId?: string },
 	): Promise<CartOrderItemFragment> {
 		const res = await executeGraphql(CartAddProductDocument, {
 			cartId,
 			productId,
-			total: price,
+			total,
 			quantity: quantity ?? 1,
 			orderItemId,
 		})
@@ -62,5 +62,24 @@ export class CartService {
 		}
 
 		return res.upsertOrderItem
+	}
+
+	async addProductHelper(
+		cart: CartOrderFragment,
+		product: ProductFragment,
+		quantity: number = 1,
+	): Promise<CartOrderItemFragment> {
+		const existingOrderItem = cart.orderItems.find(
+			(orderItem) => orderItem.product?.id === product.id,
+		)
+
+		const newQuantity = quantity + (existingOrderItem?.quantity ?? 0)
+		const newTotal = product.price + (existingOrderItem?.total ?? 0)
+
+		return this.addProduct(cart.id, product.id, {
+			quantity: newQuantity,
+			total: newTotal,
+			orderItemId: existingOrderItem?.id,
+		})
 	}
 }
