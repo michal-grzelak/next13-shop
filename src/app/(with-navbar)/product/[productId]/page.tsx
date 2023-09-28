@@ -5,7 +5,7 @@ import { ProductImage, ProductList, ProductPrice } from "@components/Product"
 import { VariantList } from "@components/Product/VariantList"
 import { ProductProvider } from "@providers/ProductProvider"
 import { CartService, ProductService } from "@services"
-import { Button } from "@ui/Button"
+import { FormButton } from "@ui/Button"
 
 type Props = {
 	params: { productId: string }
@@ -72,7 +72,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 
 						<section className="mt-2">
 							<form action={addToCart}>
-								<Button>Add to Cart</Button>
+								<FormButton>Add to Cart</FormButton>
 							</form>
 						</section>
 					</div>

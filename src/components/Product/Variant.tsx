@@ -21,7 +21,7 @@ export const Variant = ({ variant }: Props) => {
 			onClick={handleOnClick}
 			className={clsx("block rounded px-3 py-1.5 text-sm  transition-all duration-300", {
 				"cursor-pointer bg-neutral-100 text-black hover:bg-neutral-300": !isSelected,
-				"bg-neutral-600 text-white outline outline-1 outline-gray-700 ": isSelected,
+				"bg-neutral-600 text-white outline outline-1 outline-gray-700": isSelected,
 			})}
 		>
 			{variant.name}
