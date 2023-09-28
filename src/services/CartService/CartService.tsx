@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
 import {
@@ -13,7 +14,11 @@ import { executeGraphql } from "@services/graphql"
 
 export class CartService {
 	async getCart({ id }: { id: string }): Promise<CartOrderFragment | null> {
-		const res = await executeGraphql(CartGetByIdDocument, { cartId: id })
+		const res = await executeGraphql(
+			CartGetByIdDocument,
+			{ cartId: id },
+			{ next: { tags: ["cart"] }, cache: "no-store" },
+		)
 
 		if (!res.order) {
 			return null
@@ -65,6 +70,8 @@ export class CartService {
 			throw new Error("Failed to add product to cart!")
 		}
 
+		revalidateTag("cart")
+
 		return res.upsertOrderItem
 	}
 
@@ -88,14 +95,20 @@ export class CartService {
 	}
 
 	async setProductQuantity(itemId: string, quantity: number): Promise<CartOrderItemFragment> {
-		const res = await executeGraphql(CartSetProductQuantityDocument, {
-			itemId,
-			quantity,
-		})
+		const res = await executeGraphql(
+			CartSetProductQuantityDocument,
+			{
+				itemId,
+				quantity,
+			},
+			{ cache: "no-store" },
+		)
 
 		if (!res.updateOrderItem) {
 			throw new Error("Failed to add product to cart!")
 		}
+
+		revalidateTag("cart")
 
 		return res.updateOrderItem
 	}

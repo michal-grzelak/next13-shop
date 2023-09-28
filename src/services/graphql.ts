@@ -3,6 +3,7 @@ import { type TypedDocumentString } from "@gql/graphql"
 export const executeGraphql = async <TResult, TVariables>(
 	query: TypedDocumentString<TResult, TVariables>,
 	variables: TVariables,
+	options?: RequestInit,
 ): Promise<TResult> => {
 	const response = await fetch(process.env.API_URL, {
 		method: "POST",
@@ -10,8 +11,7 @@ export const executeGraphql = async <TResult, TVariables>(
 		headers: {
 			"Content-Type": "application/json",
 		},
-		// TODO: wtf? ustawia źle quantity
-		cache: "no-cache",
+		...options,
 	})
 
 	const gqlResponse = (await response.json()) as GraphqlResponse<TResult>
