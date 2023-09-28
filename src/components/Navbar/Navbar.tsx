@@ -1,4 +1,5 @@
 import clsx from "clsx"
+import { ShoppingCart } from "lucide-react"
 import { type Route } from "next"
 
 import { Searchbox } from "@components/Searchbox"
@@ -23,6 +24,12 @@ export const Navbar = ({ routes }: Props) => {
 
 				<li className="ml-4">
 					<Searchbox url="/search" />
+				</li>
+
+				<li className="ml-4">
+					<ActiveLink href="/cart" exact>
+						<ShoppingCart />
+					</ActiveLink>
 				</li>
 			</ul>
 		</nav>
