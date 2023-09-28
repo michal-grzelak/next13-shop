@@ -43,12 +43,12 @@ export default async function ProductPage({ params: { productId } }: Props) {
 		return notFound()
 	}
 
-	async function addToCart() {
+	const addToCart = async () => {
 		"use server"
 		const cartService = new CartService()
 
 		const cart = await cartService.getOrCreateCart()
-		await cartService.addProductHelper(cart, product!)
+		await cartService.addProductHelper(cart, product)
 	}
 
 	return (

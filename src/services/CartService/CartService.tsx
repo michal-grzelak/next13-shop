@@ -7,6 +7,7 @@ import {
 	type CartOrderFragment,
 	type ProductFragment,
 	CartAddProductDocument,
+	CartSetProductQuantityDocument,
 } from "@gql/graphql"
 import { executeGraphql } from "@services/graphql"
 
@@ -84,5 +85,18 @@ export class CartService {
 			total: newTotal,
 			orderItemId: existingOrderItem?.id,
 		})
+	}
+
+	async setProductQuantity(itemId: string, quantity: number): Promise<CartOrderItemFragment> {
+		const res = await executeGraphql(CartSetProductQuantityDocument, {
+			itemId,
+			quantity,
+		})
+
+		if (!res.updateOrderItem) {
+			throw new Error("Failed to add product to cart!")
+		}
+
+		return res.updateOrderItem
 	}
 }

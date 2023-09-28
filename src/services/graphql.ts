@@ -10,6 +10,8 @@ export const executeGraphql = async <TResult, TVariables>(
 		headers: {
 			"Content-Type": "application/json",
 		},
+		// TODO: wtf? ustawia źle quantity
+		cache: "no-cache",
 	})
 
 	const gqlResponse = (await response.json()) as GraphqlResponse<TResult>
