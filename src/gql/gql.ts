@@ -19,7 +19,7 @@ const documents = {
     "query CartGetById($cartId: ID!) {\n  order(where: {id: $cartId}, stage: DRAFT) {\n    ...CartOrder\n  }\n}": types.CartGetByIdDocument,
     "query CategoriesListGet {\n  categories {\n    ...Category\n  }\n}": types.CategoriesListGetDocument,
     "query CollectionListGet {\n  collections {\n    ...Collection\n  }\n}": types.CollectionListGetDocument,
-    "fragment CartOrder on Order {\n  id\n}": types.CartOrderFragmentDoc,
+    "fragment CartOrder on Order {\n  id\n  total\n  orderItems {\n    id\n    quantity\n    total\n    product {\n      id\n    }\n  }\n}": types.CartOrderFragmentDoc,
     "fragment CartOrderItem on OrderItem {\n  id\n}": types.CartOrderItemFragmentDoc,
     "fragment Category on Category {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}": types.CategoryFragmentDoc,
     "fragment Collection on Collection {\n  id\n  name\n  slug\n  products(first: 1) {\n    name\n    images(first: 1) {\n      url\n    }\n  }\n}": types.CollectionFragmentDoc,
@@ -58,7 +58,7 @@ export function graphql(source: "query CollectionListGet {\n  collections {\n   
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment CartOrder on Order {\n  id\n}"): typeof import('./graphql').CartOrderFragmentDoc;
+export function graphql(source: "fragment CartOrder on Order {\n  id\n  total\n  orderItems {\n    id\n    quantity\n    total\n    product {\n      id\n    }\n  }\n}"): typeof import('./graphql').CartOrderFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
