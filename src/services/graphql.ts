@@ -12,7 +12,6 @@ export const executeGraphql = async <TResult, TVariables>(
 			"Content-Type": "application/json",
 		},
 		...options,
-		cache: "no-cache",
 	})
 
 	const gqlResponse = (await response.json()) as GraphqlResponse<TResult>

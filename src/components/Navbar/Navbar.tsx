@@ -12,7 +12,7 @@ type Props = {
 	routes: NavbarRoute[]
 }
 
-export const Navbar = async ({ routes }: Props) => {
+export async function Navbar({ routes }: Props) {
 	const cartId = cookies().get("cartId")?.value
 
 	const cartService = new CartService()

@@ -1,4 +1,4 @@
-// import { revalidateTag } from "next/cache"
+import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
 import {
@@ -18,7 +18,7 @@ export class CartService {
 		const res = await executeGraphql(
 			CartGetByIdDocument,
 			{ cartId: id },
-			{ next: { tags: ["cart"] }, cache: "no-cache" },
+			{ next: { tags: ["cart"] }, cache: "no-store" },
 		)
 
 		if (!res.order) {
@@ -29,11 +29,7 @@ export class CartService {
 	}
 
 	async createCart(): Promise<CartOrderFragment> {
-		const res = await executeGraphql(
-			CartCreateDocument,
-			{},
-			{ next: { tags: ["cart"] }, cache: "no-cache" },
-		)
+		const res = await executeGraphql(CartCreateDocument, {}, { cache: "no-store" })
 
 		if (!res.createOrder) {
 			throw new Error("Failed to create cart!")
@@ -71,14 +67,14 @@ export class CartService {
 				quantity: quantity ?? 1,
 				orderItemId,
 			},
-			{ cache: "no-cache" },
+			{ cache: "no-store" },
 		)
 
 		if (!res.upsertOrderItem) {
 			throw new Error("Failed to add product to cart!")
 		}
 
-		// revalidateTag("cart")
+		revalidateTag("cart")
 
 		return res.upsertOrderItem
 	}
@@ -109,14 +105,14 @@ export class CartService {
 				itemId,
 				quantity,
 			},
-			{ cache: "no-cache" },
+			{ cache: "no-store" },
 		)
 
 		if (!res.updateOrderItem) {
 			throw new Error("Failed to add product to cart!")
 		}
 
-		// revalidateTag("cart")
+		revalidateTag("cart")
 
 		return res.updateOrderItem
 	}
@@ -127,14 +123,14 @@ export class CartService {
 			{
 				orderItemId,
 			},
-			{ cache: "no-cache" },
+			{ cache: "no-store" },
 		)
 
 		if (!res.deleteOrderItem) {
 			throw new Error("Failed to remove product from cart!")
 		}
 
-		// revalidateTag("cart")
+		revalidateTag("cart")
 
 		return res.deleteOrderItem
 	}
