@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache"
+// import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
 import {
@@ -18,7 +18,7 @@ export class CartService {
 		const res = await executeGraphql(
 			CartGetByIdDocument,
 			{ cartId: id },
-			{ next: { tags: ["cart"] }, cache: "no-store" },
+			{ next: { tags: ["cart"] }, cache: "no-cache" },
 		)
 
 		if (!res.order) {
@@ -29,7 +29,11 @@ export class CartService {
 	}
 
 	async createCart(): Promise<CartOrderFragment> {
-		const res = await executeGraphql(CartCreateDocument, {})
+		const res = await executeGraphql(
+			CartCreateDocument,
+			{},
+			{ next: { tags: ["cart"] }, cache: "no-cache" },
+		)
 
 		if (!res.createOrder) {
 			throw new Error("Failed to create cart!")
@@ -49,7 +53,6 @@ export class CartService {
 		}
 
 		const cart = await this.createCart()
-		cookies().set("cartId", cart.id)
 
 		return cart
 	}
@@ -59,19 +62,23 @@ export class CartService {
 		productId: string,
 		{ quantity, total, orderItemId }: { quantity: number; total: number; orderItemId?: string },
 	): Promise<CartOrderItemFragment> {
-		const res = await executeGraphql(CartAddProductDocument, {
-			cartId,
-			productId,
-			total,
-			quantity: quantity ?? 1,
-			orderItemId,
-		})
+		const res = await executeGraphql(
+			CartAddProductDocument,
+			{
+				cartId,
+				productId,
+				total,
+				quantity: quantity ?? 1,
+				orderItemId,
+			},
+			{ cache: "no-cache" },
+		)
 
 		if (!res.upsertOrderItem) {
 			throw new Error("Failed to add product to cart!")
 		}
 
-		revalidateTag("cart")
+		// revalidateTag("cart")
 
 		return res.upsertOrderItem
 	}
@@ -102,28 +109,32 @@ export class CartService {
 				itemId,
 				quantity,
 			},
-			{ cache: "no-store" },
+			{ cache: "no-cache" },
 		)
 
 		if (!res.updateOrderItem) {
 			throw new Error("Failed to add product to cart!")
 		}
 
-		revalidateTag("cart")
+		// revalidateTag("cart")
 
 		return res.updateOrderItem
 	}
 
 	async removeProduct(orderItemId: string): Promise<CartOrderItemFragment> {
-		const res = await executeGraphql(CartRemoveProductDocument, {
-			orderItemId,
-		})
+		const res = await executeGraphql(
+			CartRemoveProductDocument,
+			{
+				orderItemId,
+			},
+			{ cache: "no-cache" },
+		)
 
 		if (!res.deleteOrderItem) {
 			throw new Error("Failed to remove product from cart!")
 		}
 
-		revalidateTag("cart")
+		// revalidateTag("cart")
 
 		return res.deleteOrderItem
 	}

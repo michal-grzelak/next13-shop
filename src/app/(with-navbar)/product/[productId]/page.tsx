@@ -1,4 +1,6 @@
 import { type Metadata } from "next"
+import { revalidateTag } from "next/cache"
+import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
 
 import { ProductImage, ProductList, ProductPrice } from "@components/Product"
@@ -49,6 +51,9 @@ export default async function ProductPage({ params: { productId } }: Props) {
 
 		const cart = await cartService.getOrCreateCart()
 		await cartService.addProductHelper(cart, product)
+
+		revalidateTag("cart")
+		cookies().set("cartId", cart.id)
 	}
 
 	return (

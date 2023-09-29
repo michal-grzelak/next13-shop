@@ -1,6 +1,7 @@
 import clsx from "clsx"
 import { ShoppingCart } from "lucide-react"
 import { type Route } from "next"
+import { cookies } from "next/headers"
 
 import { Searchbox } from "@components/Searchbox"
 import { CartService } from "@services"
@@ -12,8 +13,10 @@ type Props = {
 }
 
 export const Navbar = async ({ routes }: Props) => {
+	const cartId = cookies().get("cartId")?.value
+
 	const cartService = new CartService()
-	const cart = await cartService.getOrCreateCart()
+	const cart = await cartService.getCart({ id: cartId ?? "" })
 
 	return (
 		<nav>
@@ -33,7 +36,7 @@ export const Navbar = async ({ routes }: Props) => {
 				<li className="ml-4">
 					<ActiveLink href="/cart" exact>
 						<ShoppingCart />
-						{cart.orderItems?.length ?? 0}
+						{cart?.orderItems?.length ?? 0}
 					</ActiveLink>
 				</li>
 			</ul>
