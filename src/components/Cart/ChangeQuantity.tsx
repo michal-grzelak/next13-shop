@@ -35,7 +35,7 @@ export const ChangeQuantity = ({ quantity, itemId }: Props) => {
 	}
 
 	return (
-		<form>
+		<form className="grid grid-cols-3 items-center">
 			<FormButton formAction={handleDecrement}>-</FormButton>
 			{optimisticQuantity}
 			<FormButton formAction={handleIncrement}>+</FormButton>

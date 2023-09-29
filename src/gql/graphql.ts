@@ -10770,6 +10770,13 @@ export type CartGetByIdQueryVariables = Exact<{
 
 export type CartGetByIdQuery = { order?: { id: string, total: number, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null }> } | null };
 
+export type CartRemoveProductMutationVariables = Exact<{
+  orderItemId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type CartRemoveProductMutation = { deleteOrderItem?: { id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null } | null };
+
 export type CartSetProductQuantityMutationVariables = Exact<{
   itemId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
@@ -11134,6 +11141,37 @@ fragment ProductCategory on Category {
   description
   slug
 }`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
+export const CartRemoveProductDocument = new TypedDocumentString(`
+    mutation CartRemoveProduct($orderItemId: ID) {
+  deleteOrderItem(where: {id: $orderItemId}) {
+    ...CartOrderItem
+  }
+}
+    fragment CartOrderItem on OrderItem {
+  id
+  quantity
+  total
+  product {
+    ...Product
+  }
+}
+fragment Product on Product {
+  id
+  name
+  description
+  price
+  images(first: 1) {
+    url
+  }
+  categories {
+    ...ProductCategory
+  }
+}
+fragment ProductCategory on Category {
+  name
+  description
+  slug
+}`) as unknown as TypedDocumentString<CartRemoveProductMutation, CartRemoveProductMutationVariables>;
 export const CartSetProductQuantityDocument = new TypedDocumentString(`
     mutation CartSetProductQuantity($itemId: ID!, $quantity: Int!) {
   updateOrderItem(data: {quantity: $quantity}, where: {id: $itemId}) {

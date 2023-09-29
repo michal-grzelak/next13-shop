@@ -1,7 +1,7 @@
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-import { ChangeQuantity } from "@components/Cart"
+import { ChangeQuantity, RemoveProduct } from "@components/Cart"
 import { CartService } from "@services"
 import { PageHeading } from "@ui/Heading"
 
@@ -30,6 +30,7 @@ export default async function CartPage() {
 						<th className="px-4 text-center">Product</th>
 						<th className="px-4 text-center">Quantity</th>
 						<th className="px-4 text-center">Price</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -38,12 +39,15 @@ export default async function CartPage() {
 							return null
 						}
 						return (
-							<tr key={item.product.id} className="leading-6">
+							<tr key={item.product.id} className="leading-10">
 								<td className="px-4">{item.product.name}</td>
 								<td className="px-4 text-center">
 									<ChangeQuantity quantity={item.quantity} itemId={item.id} />
 								</td>
 								<td className="px-4 text-center">{item.product.price}</td>
+								<td className="pl-6">
+									<RemoveProduct itemId={item.id} />
+								</td>
 							</tr>
 						)
 					})}

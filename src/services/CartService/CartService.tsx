@@ -9,6 +9,7 @@ import {
 	type ProductFragment,
 	CartAddProductDocument,
 	CartSetProductQuantityDocument,
+	CartRemoveProductDocument,
 } from "@gql/graphql"
 import { executeGraphql } from "@services/graphql"
 
@@ -111,5 +112,19 @@ export class CartService {
 		revalidateTag("cart")
 
 		return res.updateOrderItem
+	}
+
+	async removeProduct(orderItemId: string): Promise<CartOrderItemFragment> {
+		const res = await executeGraphql(CartRemoveProductDocument, {
+			orderItemId,
+		})
+
+		if (!res.deleteOrderItem) {
+			throw new Error("Failed to remove product from cart!")
+		}
+
+		revalidateTag("cart")
+
+		return res.deleteOrderItem
 	}
 }

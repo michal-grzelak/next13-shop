@@ -18,7 +18,7 @@ export const FormButton = ({ children, formAction, disablePending = false }: Pro
 			type="submit"
 			disabled={!disablePending && pending}
 			className={clsx(
-				"disabled cursor-pointer rounded bg-neutral-300 px-3 py-1 text-sm text-black outline outline-1 outline-gray-600 transition-all duration-300 hover:bg-neutral-400 disabled:cursor-wait disabled:bg-neutral-100 disabled:outline-gray-200",
+				"disabled h-min cursor-pointer rounded bg-neutral-300 px-3 py-1 text-sm text-black outline outline-1 outline-gray-600 transition-all duration-300 hover:bg-neutral-400 disabled:cursor-wait disabled:bg-neutral-100 disabled:outline-gray-200",
 			)}
 			formAction={formAction}
 		>
