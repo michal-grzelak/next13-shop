@@ -18,7 +18,7 @@ export class CartService {
 		const res = await executeGraphql(
 			CartGetByIdDocument,
 			{ cartId: id },
-			{ next: { tags: ["cart"] }, cache: "no-store" },
+			{ next: { tags: ["cart"], revalidate: 5 } },
 		)
 
 		if (!res.order) {
