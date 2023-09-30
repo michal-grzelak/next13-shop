@@ -7,7 +7,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const array = [...Array(3).keys()]
+	const array = [...Array(1).keys()]
 
 	return array.map((_, index) => ({
 		page: String(index + 1),
