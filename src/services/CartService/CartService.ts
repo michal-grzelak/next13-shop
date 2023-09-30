@@ -18,7 +18,7 @@ export class CartService {
 		const res = await executeGraphql(
 			CartGetByIdDocument,
 			{ cartId: id },
-			{ next: { tags: ["cart"], revalidate: 5 } },
+			{ next: { tags: ["cart"], revalidate: 15 } },
 		)
 
 		if (!res.order) {
@@ -38,6 +38,10 @@ export class CartService {
 		return res.createOrder
 	}
 
+	/**
+	 *
+	 * @description WARNING: must be used inside server action
+	 */
 	async getOrCreateCart(): Promise<CartOrderFragment> {
 		const cartId = cookies().get("cartId")?.value
 
@@ -49,6 +53,7 @@ export class CartService {
 		}
 
 		const cart = await this.createCart()
+		cookies().set("cartId", cart.id)
 
 		return cart
 	}
