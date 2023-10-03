@@ -9,7 +9,7 @@ import {
 	type ProductDetailsFragment,
 	ProductsListGetSearchDocument,
 } from "@gql/graphql"
-import { DEFAULT_PAGE_SIZE } from "@services/constants"
+import { DEFAULT_PAGE_SIZE, EFetchTag } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
 import { type Pagination } from "@types"
 
@@ -29,10 +29,14 @@ export class ProductService {
 	async getProducts({ page }: { page: number }): Promise<Pagination<ProductFragment>> {
 		const skip = (page - 1) * DEFAULT_PAGE_SIZE
 
-		const res = await executeGraphql(ProductsListGetDocument, {
-			first: DEFAULT_PAGE_SIZE,
-			skip,
-		})
+		const res = await executeGraphql(
+			ProductsListGetDocument,
+			{
+				first: DEFAULT_PAGE_SIZE,
+				skip,
+			},
+			{ next: { tags: [EFetchTag.PRODUCTS] } },
+		)
 
 		if (!res.products) {
 			return Promise.resolve({ data: [], meta: { page, pageCount: 0, pageSize: 0, total: 0 } })
@@ -53,11 +57,15 @@ export class ProductService {
 	}): Promise<Pagination<ProductFragment>> {
 		const skip = (page - 1) * DEFAULT_PAGE_SIZE
 
-		const res = await executeGraphql(ProductsListGetByCategorySlugDocument, {
-			first: DEFAULT_PAGE_SIZE,
-			skip,
-			categorySlug,
-		})
+		const res = await executeGraphql(
+			ProductsListGetByCategorySlugDocument,
+			{
+				first: DEFAULT_PAGE_SIZE,
+				skip,
+				categorySlug,
+			},
+			{ next: { tags: [EFetchTag.PRODUCTS] } },
+		)
 
 		if (!res.products) {
 			return Promise.resolve({ data: [], meta: { page, pageCount: 0, pageSize: 0, total: 0 } })
@@ -78,11 +86,15 @@ export class ProductService {
 	}): Promise<Pagination<ProductFragment>> {
 		const skip = (page - 1) * DEFAULT_PAGE_SIZE
 
-		const res = await executeGraphql(ProductsListGetByCollectionSlugDocument, {
-			first: DEFAULT_PAGE_SIZE,
-			skip,
-			collectionSlug,
-		})
+		const res = await executeGraphql(
+			ProductsListGetByCollectionSlugDocument,
+			{
+				first: DEFAULT_PAGE_SIZE,
+				skip,
+				collectionSlug,
+			},
+			{ next: { tags: [EFetchTag.PRODUCTS] } },
+		)
 
 		if (!res.products) {
 			return Promise.resolve({ data: [], meta: { page, pageCount: 0, pageSize: 0, total: 0 } })
@@ -95,9 +107,13 @@ export class ProductService {
 	}
 
 	async getProductsByName({ search }: { search: string }): Promise<ProductFragment[]> {
-		const res = await executeGraphql(ProductsListGetSearchDocument, {
-			search,
-		})
+		const res = await executeGraphql(
+			ProductsListGetSearchDocument,
+			{
+				search,
+			},
+			{ next: { tags: [EFetchTag.PRODUCTS] } },
+		)
 
 		if (!res.products) {
 			return []
@@ -107,9 +123,13 @@ export class ProductService {
 	}
 
 	async getRelatedProducts({ categorySlug }: { categorySlug: string }): Promise<ProductFragment[]> {
-		const res = await executeGraphql(ProductsListRelatedGetDocument, {
-			categorySlug,
-		})
+		const res = await executeGraphql(
+			ProductsListRelatedGetDocument,
+			{
+				categorySlug,
+			},
+			{ next: { tags: [EFetchTag.PRODUCTS] } },
+		)
 
 		if (!res.products) {
 			return []
@@ -119,9 +139,13 @@ export class ProductService {
 	}
 
 	async getProduct({ id }: { id: string }): Promise<ProductDetailsFragment | null> {
-		const res = await executeGraphql(ProductGetDocument, {
-			productId: id,
-		})
+		const res = await executeGraphql(
+			ProductGetDocument,
+			{
+				productId: id,
+			},
+			{ next: { tags: [EFetchTag.PRODUCTS] } },
+		)
 
 		if (!res.product) {
 			return null

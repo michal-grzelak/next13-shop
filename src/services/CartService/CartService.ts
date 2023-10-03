@@ -11,6 +11,7 @@ import {
 	CartSetProductQuantityDocument,
 	CartRemoveProductDocument,
 } from "@gql/graphql"
+import { EFetchTag } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
 
 export class CartService {
@@ -18,7 +19,7 @@ export class CartService {
 		const res = await executeGraphql(
 			CartGetByIdDocument,
 			{ cartId: id },
-			{ next: { tags: ["cart"], revalidate: 15 } },
+			{ next: { tags: [EFetchTag.CART], revalidate: 15 } },
 		)
 
 		if (!res.order) {
@@ -79,7 +80,7 @@ export class CartService {
 			throw new Error("Failed to add product to cart!")
 		}
 
-		revalidateTag("cart")
+		revalidateTag(EFetchTag.CART)
 
 		return res.upsertOrderItem
 	}
@@ -117,7 +118,7 @@ export class CartService {
 			throw new Error("Failed to add product to cart!")
 		}
 
-		revalidateTag("cart")
+		revalidateTag(EFetchTag.CART)
 
 		return res.updateOrderItem
 	}
@@ -135,7 +136,7 @@ export class CartService {
 			throw new Error("Failed to remove product from cart!")
 		}
 
-		revalidateTag("cart")
+		revalidateTag(EFetchTag.CART)
 
 		return res.deleteOrderItem
 	}
