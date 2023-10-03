@@ -6,21 +6,27 @@ import {
 	BaseFormItem,
 	FormControl,
 	FormDescription,
-	type FormField,
+	type BaseFormField,
 	FormLabel,
 	FormMessage,
 } from "./BaseForm"
 
-type Props = { label: ReactNode; description?: ReactNode; children: JSX.Element }
+export type FormItemProps = {
+	label: ReactNode
+	description?: ReactNode
+	children: JSX.Element
+	className?: string
+}
 
 export const FormItem = ({
 	children,
 	label,
-	description, // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}: Props): ComponentProps<typeof FormField<any, any>>["render"] => {
+	description,
+	className, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}: FormItemProps): ComponentProps<typeof BaseFormField<any, any>>["render"] => {
 	// eslint-disable-next-line react/display-name
 	return ({ field }) => (
-		<BaseFormItem>
+		<BaseFormItem className={className}>
 			<FormLabel>{label}</FormLabel>
 			<FormControl>{cloneElement(children, field)}</FormControl>
 			{description && <FormDescription>{description}</FormDescription>}
