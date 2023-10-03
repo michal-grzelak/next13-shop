@@ -4,15 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
 import { FormButton } from "@ui/Button"
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@ui/Form"
+import { Form, FormField, FormItem } from "@ui/Form"
 import { Input } from "@ui/Input"
 
 import { reviewFormSchema } from "./constants"
@@ -38,16 +30,11 @@ export const ReviewForm = ({ onSubmit }: Props) => {
 				<FormField
 					control={form.control}
 					name="username"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Username</FormLabel>
-							<FormControl>
-								<Input placeholder="shadcn" {...field} />
-							</FormControl>
-							<FormDescription>This is your public display name.</FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
+					render={FormItem({
+						label: "Username",
+						description: "This is your public display name.",
+						children: <Input placeholder="shadcn" />,
+					})}
 				/>
 				<FormButton>Submit</FormButton>
 			</form>
