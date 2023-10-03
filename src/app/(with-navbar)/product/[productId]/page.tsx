@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { ProductImage, ProductList, ProductPrice } from "@components/Product"
 import { VariantList } from "@components/Product/VariantList"
+import { ReviewForm, type TReviewFormSubmitValue } from "@components/Review"
 import { ProductProvider } from "@providers/ProductProvider"
 import { CartService, ProductService } from "@services"
 import { FormButton } from "@ui/Button"
@@ -46,6 +47,11 @@ export default async function ProductPage({ params: { productId } }: Props) {
 		await cartService.addProductHelper(cart, product)
 	}
 
+	const addReview = async (value: TReviewFormSubmitValue) => {
+		"use server"
+		console.log(value)
+	}
+
 	return (
 		<ProductProvider>
 			<article className="container mx-auto flex flex-col gap-24 px-6">
@@ -72,6 +78,10 @@ export default async function ProductPage({ params: { productId } }: Props) {
 						</section>
 					</div>
 				</div>
+
+				<section>
+					<ReviewForm onSubmit={addReview} />
+				</section>
 
 				<section data-testid="related-products">
 					<h2 className="text-lg uppercase text-gray-700">Related products</h2>
