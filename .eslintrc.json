@@ -97,7 +97,14 @@
 			}
 		],
 
-		"@typescript-eslint/no-misused-promises": "warn"
+		"@typescript-eslint/no-misused-promises": [
+			"error",
+			{
+				"checksVoidReturn": {
+					"attributes": false
+				}
+			}
+		]
 	},
 	"overrides": [
 		{
