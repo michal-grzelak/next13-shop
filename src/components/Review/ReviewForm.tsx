@@ -24,13 +24,15 @@ export const ReviewForm = ({ onSubmit }: Props) => {
 		await onSubmit(values)
 	}
 
+	// TODO: extract form
+	// TODO: set errors on async return from server function
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(_onSubmit)} className="space-y-8">
 				<FormField name="username" label="Username" description="This is your public display name.">
 					<Input placeholder="shadcn" />
 				</FormField>
-				<FormButton>Submit</FormButton>
+				<FormButton loading={form.formState.isSubmitting}>Submit</FormButton>
 			</form>
 		</Form>
 	)
