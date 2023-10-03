@@ -24,11 +24,6 @@ export async function generateMetadata({ params: { productId } }: Props): Promis
 	return {
 		title,
 		description: product.description,
-		openGraph: {
-			title,
-			description: product.description,
-			images: product.images?.map((image) => image.url),
-		},
 	}
 }
 
