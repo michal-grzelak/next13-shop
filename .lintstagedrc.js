@@ -5,7 +5,7 @@ const relativeFilenames = (filenames) => filenames.map((f) => path.relative(proc
 
 module.exports = {
 	// run lint in src dir only
-	"src/**/*.*": [
+	"src/**/*.tsx?": [
 		(filenames) => `next lint --fix --file ${relativeFilenames(filenames).join(" --file ")}`,
 	],
 
