@@ -20,7 +20,7 @@ export async function Navbar({ routes }: Props) {
 
 	return (
 		<nav>
-			<ul className="flex px-3 py-2">
+			<ul className="flex items-center px-3 py-2">
 				{routes.map((route, index) => (
 					<li key={`navigation-item-${index}`} className={clsx({ "ml-5": index > 0 })}>
 						<ActiveLink href={route.href as Route} exact={route.exact}>
