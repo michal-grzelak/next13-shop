@@ -1,15 +1,21 @@
 "use client"
-
 import { addReview } from "@serverActions"
-
 import { FormField, Form } from "@ui/Form"
 import { Input } from "@ui/Input"
 
 import { reviewFormSchema } from "./constants"
+import { type TReviewFormSubmitValue } from "./types"
 
-type Props = {}
+type Props = { productId: string }
 
-export const ReviewForm = ({}: Props) => {
+export const ReviewForm = ({ productId }: Props) => {
+	const onSubmit = async (value: TReviewFormSubmitValue) => {
+		const result = await addReview(productId, value)
+
+		if (result && "errors" in result) {
+			return result
+		}
+	}
 	return (
 		<Form
 			schema={reviewFormSchema}
@@ -20,7 +26,7 @@ export const ReviewForm = ({}: Props) => {
 				name: "user",
 				email: "user@example.com",
 			}}
-			onSubmit={addReview}
+			onSubmit={onSubmit}
 			className="grid-cols-4"
 			data-testid="add-review-form"
 		>
@@ -41,7 +47,7 @@ export const ReviewForm = ({}: Props) => {
 			<FormField name="rating" label="Rating" className="col-span-1">
 				<Input placeholder="Rating" type="number" min={1} max={5} />
 			</FormField>
-			<FormField name="email" label="Email" className="col-span-2">
+			<FormField name="email" label="Email" className="col-span-3">
 				<Input placeholder="Email" type="email" />
 			</FormField>
 		</Form>

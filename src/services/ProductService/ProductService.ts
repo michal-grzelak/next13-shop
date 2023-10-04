@@ -8,6 +8,9 @@ import {
 	ProductsListRelatedGetDocument,
 	type ProductDetailsFragment,
 	ProductsListGetSearchDocument,
+	type ReviewAddMutationVariables,
+	type ReviewFragment,
+	ReviewAddDocument,
 } from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE, EFetchTag } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
@@ -152,5 +155,33 @@ export class ProductService {
 		}
 
 		return res.product
+	}
+
+	async addReview({
+		productId,
+		headline,
+		content,
+		rating,
+		name,
+		email,
+	}: ReviewAddMutationVariables): Promise<ReviewFragment> {
+		const res = await executeGraphql(
+			ReviewAddDocument,
+			{
+				productId,
+				headline,
+				content,
+				rating,
+				name,
+				email,
+			},
+			{ cache: "no-store" },
+		)
+
+		if (!res.createReview) {
+			throw Error("Failed to add review!")
+		}
+
+		return res.createReview
 	}
 }

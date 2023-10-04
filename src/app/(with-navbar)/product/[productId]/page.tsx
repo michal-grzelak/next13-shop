@@ -75,7 +75,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 				</div>
 
 				<section>
-					<ReviewForm />
+					<ReviewForm productId={productId} />
 				</section>
 
 				<section data-testid="related-products">
