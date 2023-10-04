@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { has } from "lodash"
 import { type ReactNode } from "react"
 import { type Path, useForm } from "react-hook-form"
-import { type z, type ZodSchema, type ZodIssue } from "zod"
+import { type z, type ZodSchema } from "zod"
 
+import { type ValidationError } from "@types"
 import { FormButton } from "@ui/Button"
 
 import { FormProvider } from "./BaseForm"
@@ -15,7 +15,9 @@ import { RootFormMessage } from "./RootFormMessage"
 type Props<T extends ZodSchema<any, any>> = {
 	schema: T
 	defaultValues: z.infer<T>
-	onSubmit: (value: z.infer<T>) => Promise<void | ZodIssue[]> | (void | ZodIssue[])
+	onSubmit: (
+		value: z.infer<T>,
+	) => Promise<void | { errors: ValidationError[] }> | (void | { errors: ValidationError[] })
 	children: ReactNode
 	submitText?: string
 }
@@ -34,29 +36,15 @@ export const Form = <T extends ZodSchema<any, any>>({
 
 	// TODO: extract common class on BE and return nice format from BE
 	const _onSubmit = async (value: z.infer<T>) => {
-		const errors = await onSubmit(value)
+		const result = await onSubmit(value)
+		console.log(result)
 
-		if (!!errors && Array.isArray(errors)) {
-			const values = form.getValues()
-			const rootMessages: string[] = []
-
-			errors.forEach((error) => {
-				const path = error.path.join(".")
-
-				if (has(values, path)) {
-					form.setError(path as Path<z.infer<T>>, {
-						type: "server",
-						message: error.message,
-					})
-				} else {
-					rootMessages.push(error.message)
-				}
-			})
-
-			const rootErrorMessage = rootMessages.join(". ")
-			form.setError("root", {
-				type: "server",
-				message: rootErrorMessage,
+		if (!!result && Array.isArray(result.errors)) {
+			result.errors.forEach((error) => {
+				form.setError(error.path as Path<z.infer<T>>, {
+					type: "server",
+					message: error.message,
+				})
 			})
 		}
 	}
