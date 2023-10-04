@@ -8,6 +8,7 @@ import { type z, type ZodSchema } from "zod"
 
 import { type ValidationError } from "@types"
 import { FormButton } from "@ui/Button"
+import { cn } from "@utils/cn"
 
 import { FormProvider } from "./BaseForm"
 import { RootFormMessage } from "./RootFormMessage"
@@ -20,6 +21,8 @@ type Props<T extends ZodSchema<any, any>> = {
 	) => Promise<void | { errors: ValidationError[] }> | (void | { errors: ValidationError[] })
 	children: ReactNode
 	submitText?: string
+	className?: string
+	"data-testid"?: string
 }
 
 export const Form = <T extends ZodSchema<any, any>>({
@@ -28,13 +31,14 @@ export const Form = <T extends ZodSchema<any, any>>({
 	onSubmit,
 	children,
 	submitText = "Submit",
+	className,
+	"data-testid": dataTestId,
 }: Props<T>): JSX.Element => {
 	const form = useForm<T>({
 		resolver: zodResolver(schema),
 		defaultValues,
 	})
 
-	// TODO: extract common class on BE and return nice format from BE
 	const _onSubmit = async (value: z.infer<T>) => {
 		const result = await onSubmit(value)
 		console.log(result)
@@ -46,15 +50,23 @@ export const Form = <T extends ZodSchema<any, any>>({
 					message: error.message,
 				})
 			})
+		} else {
+			form.reset()
 		}
 	}
 
 	return (
 		<FormProvider {...form}>
-			<form onSubmit={form.handleSubmit(_onSubmit)} className="space-y-8">
+			<form
+				onSubmit={form.handleSubmit(_onSubmit)}
+				className={cn("grid grid-flow-row gap-4", className)}
+				data-testid={dataTestId}
+			>
 				{children}
 				<RootFormMessage />
-				<FormButton loading={form.formState.isSubmitting}>{submitText}</FormButton>
+				<FormButton loading={form.formState.isSubmitting} className="col-span-full !mt-8">
+					{submitText}
+				</FormButton>
 			</form>
 		</FormProvider>
 	)
