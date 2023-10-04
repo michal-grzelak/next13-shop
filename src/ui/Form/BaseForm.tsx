@@ -1,3 +1,5 @@
+"use client"
+
 import { Slot } from "@radix-ui/react-slot"
 import * as React from "react"
 import {
@@ -23,7 +25,9 @@ type FormFieldContextValue<
 	name: TName
 }
 
-const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
+export const FormFieldContext = React.createContext<FormFieldContextValue>(
+	{} as FormFieldContextValue,
+)
 
 const FormField = <
 	TFieldValues extends FieldValues = FieldValues,
@@ -65,7 +69,7 @@ type FormItemContextValue = {
 	id: string
 }
 
-const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue)
+export const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue)
 
 const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
 	({ className, ...props }, ref) => {
@@ -158,7 +162,7 @@ FormMessage.displayName = "FormMessage"
 
 export {
 	useFormField,
-	Form,
+	Form as FormProvider,
 	FormItem as BaseFormItem,
 	FormLabel,
 	FormControl,
