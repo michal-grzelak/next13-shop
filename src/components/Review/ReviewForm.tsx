@@ -13,14 +13,16 @@ export const ReviewForm = ({}: Props) => {
 		<Form
 			schema={reviewFormSchema}
 			defaultValues={{
-				nested: {
-					username: "",
-				},
+				nested: [
+					{
+						username: "",
+					},
+				],
 			}}
 			onSubmit={addReview}
 		>
 			<FormField
-				name="nested.username"
+				name="nested[0].username"
 				label="Username"
 				description="This is your public display name."
 			>

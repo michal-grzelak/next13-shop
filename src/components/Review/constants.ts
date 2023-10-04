@@ -1,9 +1,11 @@
 import z from "zod"
 
 export const reviewFormSchema = z.object({
-	nested: z.object({
-		username: z.string().min(2, {
-			message: "Username must be at least 2 characters.",
+	nested: z.array(
+		z.object({
+			username: z.string().min(2, {
+				message: "Username must be at least 2 characters.",
+			}),
 		}),
-	}),
+	),
 })

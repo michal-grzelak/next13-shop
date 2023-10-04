@@ -1,5 +1,5 @@
 "use server"
-import { groupBy, has } from "lodash"
+import { get, groupBy } from "lodash"
 import z, { ZodError } from "zod"
 
 import { type ValidationError } from "@types"
@@ -11,9 +11,11 @@ export const addReview = async (
 	value: TReviewFormSubmitValue,
 ): Promise<void | { errors: ValidationError[] }> => {
 	const newSchema = reviewFormSchema.extend({
-		nested: z.object({
-			username: z.string().min(10).max(1),
-		}),
+		nested: z.array(
+			z.object({
+				username: z.string().min(10).max(1),
+			}),
+		),
 	})
 
 	try {
@@ -33,7 +35,8 @@ export const addReview = async (
 				const errors = errorsGrouped[path]
 				const message = errors.map((error) => error.message).join(", ")
 
-				if (has(value, path)) {
+				const propertyValue = get(value, path) as unknown
+				if (!!propertyValue && typeof propertyValue !== "object") {
 					validationErrors.push({
 						path,
 						message: message,
@@ -45,13 +48,15 @@ export const addReview = async (
 				}
 			}
 
-			const rootErrorMessage = rootMessages.join(", ")
-			validationErrors.push({
-				path: "root",
-				code: "custom",
-				message: rootErrorMessage,
-				fatal: true,
-			})
+			if (rootMessages.length) {
+				const rootErrorMessage = rootMessages.join(", ")
+				validationErrors.push({
+					path: "root",
+					code: "custom",
+					message: rootErrorMessage,
+					fatal: true,
+				})
+			}
 
 			return { errors: validationErrors }
 		}
