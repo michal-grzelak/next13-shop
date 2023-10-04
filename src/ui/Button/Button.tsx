@@ -8,11 +8,17 @@ export interface ButtonProps extends BaseButtonProps {
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	({ loading, children, disabled, ...props }, ref) => {
+	({ loading, children, disabled, asChild, ...props }, ref) => {
 		return (
-			<BaseButton {...props} disabled={disabled || loading} ref={ref}>
-				{loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-				{children}
+			<BaseButton {...props} disabled={disabled || loading} asChild={asChild} ref={ref}>
+				{asChild ? (
+					children
+				) : (
+					<>
+						{loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+						{children}
+					</>
+				)}
 			</BaseButton>
 		)
 	},

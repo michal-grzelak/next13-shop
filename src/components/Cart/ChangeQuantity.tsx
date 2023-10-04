@@ -12,6 +12,7 @@ type Props = {
 	quantity: number
 }
 
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 const handleSetQuantity = debounce(setProductQuantity, 200)
 
 export const ChangeQuantity = ({ quantity, itemId }: Props) => {
