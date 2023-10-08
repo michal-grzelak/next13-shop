@@ -68,7 +68,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 
 						<section className="mt-2">
 							<form action={addToCart}>
-								<FormButton>Add to Cart</FormButton>
+								<FormButton data-testid="add-to-cart-button">Add to Cart</FormButton>
 							</form>
 						</section>
 					</div>
