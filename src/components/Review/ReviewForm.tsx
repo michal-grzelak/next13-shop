@@ -1,21 +1,17 @@
 "use client"
-import { addReview } from "@serverActions"
+
+import { type ValidationError } from "@types"
 import { FormField, Form } from "@ui/Form"
 import { Input } from "@ui/Input"
 
 import { reviewFormSchema } from "./constants"
 import { type TReviewFormSubmitValue } from "./types"
 
-type Props = { productId: string }
+type Props = {
+	onSubmit: (value: TReviewFormSubmitValue) => Promise<{ errors: ValidationError[] } | void>
+}
 
-export const ReviewForm = ({ productId }: Props) => {
-	const onSubmit = async (value: TReviewFormSubmitValue) => {
-		const result = await addReview(productId, value)
-
-		if (result && "errors" in result) {
-			return result
-		}
-	}
+export const ReviewForm = ({ onSubmit }: Props) => {
 	return (
 		<Form
 			schema={reviewFormSchema}

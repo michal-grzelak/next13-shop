@@ -41,7 +41,6 @@ export const Form = <T extends ZodSchema<any, any>>({
 
 	const _onSubmit = async (value: z.infer<T>) => {
 		const result = await onSubmit(value)
-		console.log(result)
 
 		if (!!result && Array.isArray(result.errors)) {
 			result.errors.forEach((error) => {

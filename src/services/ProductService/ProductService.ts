@@ -1,3 +1,5 @@
+import { revalidateTag } from "next/cache"
+
 import {
 	type ProductFragment,
 	ProductGetDocument,
@@ -181,6 +183,8 @@ export class ProductService {
 		if (!res.createReview) {
 			throw Error("Failed to add review!")
 		}
+
+		revalidateTag(EFetchTag.PRODUCTS)
 
 		return res.createReview
 	}

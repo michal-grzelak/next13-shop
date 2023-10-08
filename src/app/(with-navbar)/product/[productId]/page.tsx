@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 
 import { ProductImage, ProductList, ProductPrice } from "@components/Product"
 import { VariantList } from "@components/Product/VariantList"
-import { ReviewForm } from "@components/Review"
+import { ProductReview } from "@components/Review"
 import { ProductProvider } from "@providers/ProductProvider"
 import { CartService, ProductService } from "@services"
 import { FormButton } from "@ui/Button"
@@ -75,7 +75,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 				</div>
 
 				<section>
-					<ReviewForm productId={productId} />
+					<ProductReview productId={productId} reviews={product.reviews ?? []} />
 				</section>
 
 				<section data-testid="related-products">
