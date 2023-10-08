@@ -22,6 +22,7 @@ type Props<T = string> = {
 	onSelect?: (value: T) => void
 	value?: T
 	defaultValue?: T
+	className?: string
 }
 
 export const Select = <T,>({
@@ -31,6 +32,7 @@ export const Select = <T,>({
 	value,
 	defaultValue,
 	onSelect: _onSelect,
+	className,
 }: Props<T>) => {
 	const id = useId()
 
@@ -47,7 +49,7 @@ export const Select = <T,>({
 			value={value ? JSON.stringify(value) : undefined}
 			defaultValue={defaultValue ? JSON.stringify(defaultValue) : undefined}
 		>
-			<SelectTrigger>
+			<SelectTrigger className={className}>
 				<SelectValue placeholder={placeholder} />
 			</SelectTrigger>
 			<SelectContent>

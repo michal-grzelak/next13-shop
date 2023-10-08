@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { type Route } from "next"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { type ReactNode } from "react"
 
 const DISPLAY_COUNT = 1
@@ -22,6 +22,7 @@ export const usePagination = ({
 	displayCount?: number
 }) => {
 	const pathname = usePathname()
+	const searchParams = useSearchParams()
 
 	const isPrevious = page > 1
 	const isNext = page < pages
@@ -43,7 +44,7 @@ export const usePagination = ({
 		const urlComponents = pathname.split("/")
 		urlComponents.pop()
 
-		const pageUrl = `${urlComponents.join("/")}/${page}`
+		const pageUrl = `${urlComponents.join("/")}/${page}?${searchParams.toString()}`
 
 		return pageUrl as Route
 	}

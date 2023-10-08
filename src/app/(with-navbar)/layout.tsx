@@ -18,7 +18,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
 				<Navbar routes={routes} />
 			</Suspense>
 
-			<main className="mt-4 flex flex-col gap-4">{children}</main>
+			<main className="container mt-4 flex flex-col gap-4">{children}</main>
 		</>
 	)
 }
