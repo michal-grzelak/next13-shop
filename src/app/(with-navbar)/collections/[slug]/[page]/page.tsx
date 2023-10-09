@@ -35,7 +35,7 @@ export default async function ProductsByCollection({ params: { page, slug } }: P
 		<>
 			<PageHeading>Products in collection: {slug.toUpperCase()}</PageHeading>
 
-			<ProductList products={products}></ProductList>
+			<ProductList products={products} canBeSorted={false}></ProductList>
 			<Pagination page={pageNumber} pages={meta.pageCount} />
 		</>
 	)

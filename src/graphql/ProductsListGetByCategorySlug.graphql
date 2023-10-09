@@ -1,5 +1,10 @@
 query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {
-	products(first: $first, skip: $skip, where: { categories_some: { slug: $categorySlug } }) {
+	products(
+		first: $first
+		skip: $skip
+		where: { categories_some: { slug: $categorySlug } }
+		stage: DRAFT
+	) {
 		...Product
 	}
 	productsConnection(where: { categories_some: { slug: $categorySlug } }) {

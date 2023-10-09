@@ -3,8 +3,10 @@ import { notFound } from "next/navigation"
 
 import { ProductImage, ProductList, ProductPrice } from "@components/Product"
 import { VariantList } from "@components/Product/VariantList"
+import { ProductReview } from "@components/Review"
 import { ProductProvider } from "@providers/ProductProvider"
-import { ProductService } from "@services"
+import { CartService, ProductService } from "@services"
+import { FormButton } from "@ui/Button"
 
 type Props = {
 	params: { productId: string }
@@ -23,11 +25,6 @@ export async function generateMetadata({ params: { productId } }: Props): Promis
 	return {
 		title,
 		description: product.description,
-		openGraph: {
-			title,
-			description: product.description,
-			images: product.images?.map((image) => image.url),
-		},
 	}
 }
 
@@ -40,6 +37,14 @@ export default async function ProductPage({ params: { productId } }: Props) {
 
 	if (!product) {
 		return notFound()
+	}
+
+	const addToCart = async () => {
+		"use server"
+		const cartService = new CartService()
+
+		const cart = await cartService.getOrCreateCart()
+		await cartService.addProductHelper(cart, product)
 	}
 
 	return (
@@ -60,12 +65,22 @@ export default async function ProductPage({ params: { productId } }: Props) {
 						<section className="mt-2">
 							<VariantList variants={product.variants} />
 						</section>
+
+						<section className="mt-2">
+							<form action={addToCart}>
+								<FormButton data-testid="add-to-cart-button">Add to Cart</FormButton>
+							</form>
+						</section>
 					</div>
 				</div>
 
+				<section>
+					<ProductReview productId={productId} reviews={product.reviews ?? []} />
+				</section>
+
 				<section data-testid="related-products">
 					<h2 className="text-lg uppercase text-gray-700">Related products</h2>
-					<ProductList products={relatedProducts} />
+					<ProductList products={relatedProducts} canBeSorted={false} />
 				</section>
 			</article>
 		</ProductProvider>

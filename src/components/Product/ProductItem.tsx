@@ -16,7 +16,12 @@ export const ProductItem = ({ product }: Props) => {
 				<article className="group">
 					<ProductImage product={product} />
 					<h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-					<ProductPrice price={product.price} />
+					<div className="flex flex-row items-center justify-between">
+						<ProductPrice price={product.price} />
+						<span data-testid="product-rating">
+							{product.rating ? <>{product.rating.toFixed(2)}/5</> : <>0?</>}
+						</span>
+					</div>
 				</article>
 			</Link>
 		</li>

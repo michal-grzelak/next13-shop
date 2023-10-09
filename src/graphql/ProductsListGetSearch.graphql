@@ -1,5 +1,5 @@
 query ProductsListGetSearch($search: String!) {
-	products(where: { _search: $search }) {
+	products(where: { _search: $search }, stage: DRAFT) {
 		...Product
 	}
 }

@@ -1,4 +1,4 @@
-import { type ReactNode } from "react"
+import { Suspense, type ReactNode } from "react"
 
 import { Navbar, type NavbarRoute } from "@components/Navbar"
 
@@ -14,9 +14,11 @@ const routes: NavbarRoute[] = [
 export default function NavLayout({ children }: { children: ReactNode }) {
 	return (
 		<>
-			<Navbar routes={routes} />
+			<Suspense>
+				<Navbar routes={routes} />
+			</Suspense>
 
-			<main className="mt-4 flex flex-col gap-4">{children}</main>
+			<main className="container mt-4 flex flex-col gap-4">{children}</main>
 		</>
 	)
 }
