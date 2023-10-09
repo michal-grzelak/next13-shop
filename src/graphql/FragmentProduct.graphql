@@ -6,6 +6,7 @@ fragment Product on Product {
 	images(first: 1) {
 		url
 	}
+	rating
 	categories {
 		...ProductCategory
 	}
