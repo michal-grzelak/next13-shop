@@ -2,6 +2,7 @@ import { type ProductFragment } from "@gql/graphql"
 
 import { ProductItem } from "./ProductItem"
 import { SortByPrice } from "./SortByPrice"
+import { SortByRating } from "./SortByRating"
 
 type Props = {
 	products: ProductFragment[]
@@ -12,8 +13,9 @@ export const ProductList = ({ products, canBeSorted = true }: Props) => {
 	return (
 		<div className="grid grid-flow-row gap-y-8">
 			{canBeSorted && (
-				<div>
+				<div className="flex flex-row gap-2">
 					<SortByPrice />
+					<SortByRating />
 				</div>
 			)}
 

@@ -1,3 +1,4 @@
+import { meanBy } from "lodash"
 import { revalidateTag } from "next/cache"
 
 import {
@@ -14,6 +15,7 @@ import {
 	type ReviewFragment,
 	ReviewAddDocument,
 	type ProductOrderByInput,
+	ProductUpdateDocument,
 } from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE, EFetchTag } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
@@ -167,6 +169,32 @@ export class ProductService {
 		return res.product
 	}
 
+	async updateProduct({
+		id,
+		...data
+	}: {
+		id: string
+		price?: number
+		rating?: number
+		name?: string
+		description?: string
+	}): Promise<ProductDetailsFragment | null> {
+		const res = await executeGraphql(
+			ProductUpdateDocument,
+			{
+				productId: id,
+				...data,
+			},
+			{ cache: "no-store" },
+		)
+
+		if (!res.updateProduct) {
+			return null
+		}
+
+		return res.updateProduct
+	}
+
 	async addReview({
 		productId,
 		headline,
@@ -175,6 +203,12 @@ export class ProductService {
 		name,
 		email,
 	}: ReviewAddMutationVariables): Promise<ReviewFragment> {
+		const product = await this.getProduct({ id: productId })
+
+		if (!product) {
+			throw Error("Error during creating review!")
+		}
+
 		const res = await executeGraphql(
 			ReviewAddDocument,
 			{
@@ -191,6 +225,12 @@ export class ProductService {
 		if (!res.createReview) {
 			throw Error("Failed to add review!")
 		}
+
+		const newRating = meanBy(
+			[...product.reviews, res.createReview] ?? [],
+			(review) => review.rating,
+		)
+		await this.updateProduct({ id: productId, rating: newRating })
 
 		revalidateTag(EFetchTag.PRODUCTS)
 

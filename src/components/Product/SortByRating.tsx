@@ -7,24 +7,25 @@ import { ProductOrderByInput } from "@gql/graphql"
 import { Button } from "@ui/Button"
 import { useSearchParamsManager } from "@utils/useSearchParamsManager"
 
-export const SortByPrice = () => {
+export const SortByRating = () => {
 	const searchParamsManager = useSearchParamsManager()
 	const searchParams = useSearchParams()
 	const sortValue = (searchParams.get("sort") as ProductOrderByInput) ?? undefined
-	const isPriceSort =
-		sortValue === ProductOrderByInput.PriceAsc || sortValue === ProductOrderByInput.PriceDesc
+	const isRatingSort =
+		sortValue === ProductOrderByInput.RatingAsc || sortValue === ProductOrderByInput.RatingDesc
+
 	const onClick = () => {
 		let value: ProductOrderByInput | undefined
 		switch (sortValue) {
-			case ProductOrderByInput.PriceAsc:
-				value = ProductOrderByInput.PriceDesc
+			case ProductOrderByInput.RatingAsc:
+				value = ProductOrderByInput.RatingDesc
 				break
-			case ProductOrderByInput.PriceDesc:
+			case ProductOrderByInput.RatingDesc:
 				value = undefined
 				break
 			case undefined:
 			default:
-				value = ProductOrderByInput.PriceAsc
+				value = ProductOrderByInput.RatingAsc
 				break
 		}
 
@@ -38,10 +39,11 @@ export const SortByPrice = () => {
 	return (
 		<Button
 			onClick={onClick}
-			variant={isPriceSort ? "default" : "secondary"}
-			data-testid="sort-by-price"
+			variant={isRatingSort ? "default" : "secondary"}
+			data-testid="sort-by-rating"
 		>
-			Sort by price {sortValue === ProductOrderByInput.PriceDesc ? <ArrowUp01 /> : <ArrowDown01 />}
+			Sort by rating{" "}
+			{sortValue === ProductOrderByInput.RatingDesc ? <ArrowUp01 /> : <ArrowDown01 />}
 		</Button>
 	)
 }

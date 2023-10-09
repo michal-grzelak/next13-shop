@@ -1,5 +1,5 @@
 query ProductsListGet($first: Int!, $skip: Int!, $orderBy: ProductOrderByInput) {
-	products(first: $first, skip: $skip, orderBy: $orderBy) {
+	products(first: $first, skip: $skip, orderBy: $orderBy, stage: DRAFT) {
 		...Product
 	}
 	productsConnection {

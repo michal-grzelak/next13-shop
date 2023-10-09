@@ -10847,6 +10847,17 @@ export type ProductGetQueryVariables = Exact<{
 
 export type ProductGetQuery = { product?: { id: string, name: string, description: string, price: number, rating?: number | null, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }>, reviews: Array<{ id: string, headline: string, content: string, rating: number, name: string, email: string }>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null };
 
+export type ProductUpdateMutationVariables = Exact<{
+  productId: Scalars['ID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductUpdateMutation = { updateProduct?: { id: string, name: string, description: string, price: number, rating?: number | null, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }>, reviews: Array<{ id: string, headline: string, content: string, rating: number, name: string, email: string }>, images: Array<{ url: string }>, categories: Array<{ name: string, description?: string | null, slug: string }> } | null };
+
 export type ProductsListGetQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   skip: Scalars['Int']['input'];
@@ -11365,9 +11376,68 @@ fragment Review on Review {
   name
   email
 }`) as unknown as TypedDocumentString<ProductGetQuery, ProductGetQueryVariables>;
+export const ProductUpdateDocument = new TypedDocumentString(`
+    mutation ProductUpdate($productId: ID!, $description: String, $name: String, $rating: Float, $price: Int) {
+  updateProduct(
+    where: {id: $productId}
+    data: {description: $description, name: $name, rating: $rating, price: $price}
+  ) {
+    ...ProductDetails
+  }
+}
+    fragment Product on Product {
+  id
+  name
+  description
+  price
+  images(first: 1) {
+    url
+  }
+  rating
+  categories {
+    ...ProductCategory
+  }
+}
+fragment ProductCategory on Category {
+  name
+  description
+  slug
+}
+fragment ProductDetails on Product {
+  ...Product
+  variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+  }
+  reviews {
+    ...Review
+  }
+}
+fragment Review on Review {
+  id
+  headline
+  content
+  rating
+  name
+  email
+}`) as unknown as TypedDocumentString<ProductUpdateMutation, ProductUpdateMutationVariables>;
 export const ProductsListGetDocument = new TypedDocumentString(`
     query ProductsListGet($first: Int!, $skip: Int!, $orderBy: ProductOrderByInput) {
-  products(first: $first, skip: $skip, orderBy: $orderBy) {
+  products(first: $first, skip: $skip, orderBy: $orderBy, stage: DRAFT) {
     ...Product
   }
   productsConnection {
