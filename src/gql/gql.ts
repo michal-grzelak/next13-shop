@@ -33,9 +33,9 @@ const documents = {
     "query ProductGet($productId: ID!) {\n  product(where: {id: $productId}, stage: DRAFT) {\n    ...ProductDetails\n  }\n}": types.ProductGetDocument,
     "mutation ProductUpdate($productId: ID!, $description: String, $name: String, $rating: Float, $price: Int) {\n  updateProduct(\n    where: {id: $productId}\n    data: {description: $description, name: $name, rating: $rating, price: $price}\n  ) {\n    ...ProductDetails\n  }\n}": types.ProductUpdateDocument,
     "query ProductsListGet($first: Int!, $skip: Int!, $orderBy: ProductOrderByInput) {\n  products(first: $first, skip: $skip, orderBy: $orderBy, stage: DRAFT) {\n    ...Product\n  }\n  productsConnection {\n    ...ProductPagination\n  }\n}": types.ProductsListGetDocument,
-    "query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCategorySlugDocument,
-    "query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {collections_some: {slug: $collectionSlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCollectionSlugDocument,
-    "query ProductsListGetSearch($search: String!) {\n  products(where: {_search: $search}) {\n    ...Product\n  }\n}": types.ProductsListGetSearchDocument,
+    "query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {categories_some: {slug: $categorySlug}}\n    stage: DRAFT\n  ) {\n    ...Product\n  }\n  productsConnection(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCategorySlugDocument,
+    "query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {collections_some: {slug: $collectionSlug}}\n    stage: DRAFT\n  ) {\n    ...Product\n  }\n  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {\n    ...ProductPagination\n  }\n}": types.ProductsListGetByCollectionSlugDocument,
+    "query ProductsListGetSearch($search: String!) {\n  products(where: {_search: $search}, stage: DRAFT) {\n    ...Product\n  }\n}": types.ProductsListGetSearchDocument,
     "query ProductsListRelatedGet($categorySlug: String) {\n  products(first: 4, where: {categories_some: {slug: $categorySlug}}) {\n    ...Product\n  }\n}": types.ProductsListRelatedGetDocument,
     "mutation ReviewAdd($productId: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {headline: $headline, content: $content, rating: $rating, name: $name, email: $email, product: {connect: {id: $productId}}}\n  ) {\n    ...Review\n  }\n}": types.ReviewAddDocument,
 };
@@ -119,15 +119,15 @@ export function graphql(source: "query ProductsListGet($first: Int!, $skip: Int!
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {categories_some: {slug: $categorySlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductPagination\n  }\n}"): typeof import('./graphql').ProductsListGetByCategorySlugDocument;
+export function graphql(source: "query ProductsListGetByCategorySlug($first: Int!, $skip: Int!, $categorySlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {categories_some: {slug: $categorySlug}}\n    stage: DRAFT\n  ) {\n    ...Product\n  }\n  productsConnection(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductPagination\n  }\n}"): typeof import('./graphql').ProductsListGetByCategorySlugDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {collections_some: {slug: $collectionSlug}}\n  ) {\n    ...Product\n  }\n  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {\n    ...ProductPagination\n  }\n}"): typeof import('./graphql').ProductsListGetByCollectionSlugDocument;
+export function graphql(source: "query ProductsListGetByCollectionSlug($first: Int!, $skip: Int!, $collectionSlug: String!) {\n  products(\n    first: $first\n    skip: $skip\n    where: {collections_some: {slug: $collectionSlug}}\n    stage: DRAFT\n  ) {\n    ...Product\n  }\n  productsConnection(where: {collections_some: {slug: $collectionSlug}}) {\n    ...ProductPagination\n  }\n}"): typeof import('./graphql').ProductsListGetByCollectionSlugDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductsListGetSearch($search: String!) {\n  products(where: {_search: $search}) {\n    ...Product\n  }\n}"): typeof import('./graphql').ProductsListGetSearchDocument;
+export function graphql(source: "query ProductsListGetSearch($search: String!) {\n  products(where: {_search: $search}, stage: DRAFT) {\n    ...Product\n  }\n}"): typeof import('./graphql').ProductsListGetSearchDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

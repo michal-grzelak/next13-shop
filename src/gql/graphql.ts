@@ -11476,6 +11476,7 @@ export const ProductsListGetByCategorySlugDocument = new TypedDocumentString(`
     first: $first
     skip: $skip
     where: {categories_some: {slug: $categorySlug}}
+    stage: DRAFT
   ) {
     ...Product
   }
@@ -11515,6 +11516,7 @@ export const ProductsListGetByCollectionSlugDocument = new TypedDocumentString(`
     first: $first
     skip: $skip
     where: {collections_some: {slug: $collectionSlug}}
+    stage: DRAFT
   ) {
     ...Product
   }
@@ -11550,7 +11552,7 @@ fragment ProductPagination on ProductConnection {
 }`) as unknown as TypedDocumentString<ProductsListGetByCollectionSlugQuery, ProductsListGetByCollectionSlugQueryVariables>;
 export const ProductsListGetSearchDocument = new TypedDocumentString(`
     query ProductsListGetSearch($search: String!) {
-  products(where: {_search: $search}) {
+  products(where: {_search: $search}, stage: DRAFT) {
     ...Product
   }
 }
