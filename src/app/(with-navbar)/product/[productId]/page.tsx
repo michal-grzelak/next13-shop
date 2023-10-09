@@ -80,7 +80,7 @@ export default async function ProductPage({ params: { productId } }: Props) {
 
 				<section data-testid="related-products">
 					<h2 className="text-lg uppercase text-gray-700">Related products</h2>
-					<ProductList products={relatedProducts} />
+					<ProductList products={relatedProducts} canBeSorted={false} />
 				</section>
 			</article>
 		</ProductProvider>

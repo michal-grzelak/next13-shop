@@ -13,7 +13,7 @@ export default async function Home() {
 		<>
 			<PageHeading>Check the new products!</PageHeading>
 
-			<ProductList products={products}></ProductList>
+			<ProductList products={products} canBeSorted={false}></ProductList>
 		</>
 	)
 }

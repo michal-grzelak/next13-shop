@@ -10823,6 +10823,7 @@ export type ProductGetQuery = { product?: { id: string, name: string, descriptio
 export type ProductsListGetQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   skip: Scalars['Int']['input'];
+  orderBy?: InputMaybe<ProductOrderByInput>;
 }>;
 
 
@@ -11328,8 +11329,8 @@ fragment Review on Review {
   email
 }`) as unknown as TypedDocumentString<ProductGetQuery, ProductGetQueryVariables>;
 export const ProductsListGetDocument = new TypedDocumentString(`
-    query ProductsListGet($first: Int!, $skip: Int!) {
-  products(first: $first, skip: $skip) {
+    query ProductsListGet($first: Int!, $skip: Int!, $orderBy: ProductOrderByInput) {
+  products(first: $first, skip: $skip, orderBy: $orderBy) {
     ...Product
   }
   productsConnection {

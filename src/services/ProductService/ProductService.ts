@@ -13,6 +13,7 @@ import {
 	type ReviewAddMutationVariables,
 	type ReviewFragment,
 	ReviewAddDocument,
+	type ProductOrderByInput,
 } from "@gql/graphql"
 import { DEFAULT_PAGE_SIZE, EFetchTag } from "@services/constants"
 import { executeGraphql } from "@services/graphql"
@@ -31,7 +32,13 @@ const mapGraphqlPaginationToPagination = ({
 })
 
 export class ProductService {
-	async getProducts({ page }: { page: number }): Promise<Pagination<ProductFragment>> {
+	async getProducts({
+		page,
+		orderBy,
+	}: {
+		page: number
+		orderBy?: ProductOrderByInput
+	}): Promise<Pagination<ProductFragment>> {
 		const skip = (page - 1) * DEFAULT_PAGE_SIZE
 
 		const res = await executeGraphql(
@@ -39,6 +46,7 @@ export class ProductService {
 			{
 				first: DEFAULT_PAGE_SIZE,
 				skip,
+				orderBy,
 			},
 			{ next: { tags: [EFetchTag.PRODUCTS] } },
 		)

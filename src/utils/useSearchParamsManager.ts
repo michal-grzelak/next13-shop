@@ -9,7 +9,7 @@ export const useSearchParamsManager = () => {
 
 	// Get a new searchParams string by merging the current
 	// searchParams with a provided key/value pair
-	const createQueryString = useCallback(
+	const appendQueryString = useCallback(
 		(name: string, value: string) => {
 			const params = new URLSearchParams(searchParams)
 			params.set(name, value)
@@ -19,9 +19,23 @@ export const useSearchParamsManager = () => {
 		[searchParams],
 	)
 
+	const removeQueryString = useCallback(
+		(name: string) => {
+			const params = new URLSearchParams(searchParams)
+			params.delete(name)
+
+			return params.toString()
+		},
+		[searchParams],
+	)
+
 	const set = (key: string, value: string) => {
-		router.replace((pathname + "?" + createQueryString(key, value)) as Route)
+		router.replace((pathname + "?" + appendQueryString(key, value)) as Route, { scroll: false })
 	}
 
-	return { set }
+	const remove = (key: string) => {
+		router.replace((pathname + "?" + removeQueryString(key)) as Route, { scroll: false })
+	}
+
+	return { set, remove }
 }

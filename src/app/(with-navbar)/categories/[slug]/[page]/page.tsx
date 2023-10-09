@@ -35,7 +35,7 @@ export default async function ProductsByCategory({ params: { page, slug } }: Pro
 		<>
 			<PageHeading>Products in category: {slug.toUpperCase()}</PageHeading>
 
-			<ProductList products={products}></ProductList>
+			<ProductList products={products} canBeSorted={false}></ProductList>
 			<Pagination page={pageNumber} pages={meta.pageCount} />
 		</>
 	)

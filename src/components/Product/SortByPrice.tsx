@@ -1,31 +1,41 @@
 "use client"
 
+import { ArrowDown01, ArrowUp01 } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 
-import { Select, type SelectItem } from "@ui/Select"
+import { ProductOrderByInput } from "@gql/graphql"
+import { Button } from "@ui/Button"
 import { useSearchParamsManager } from "@utils/useSearchParamsManager"
-
-const items: SelectItem[] = [
-	{ label: "Ascending", value: "asc" },
-	{ label: "Descending", value: "desc" },
-]
 
 export const SortByPrice = () => {
 	const searchParamsManager = useSearchParamsManager()
 	const searchParams = useSearchParams()
-	const sortValue = searchParams.get("sort")
+	const sortValue = (searchParams.get("sort") as ProductOrderByInput) ?? undefined
 
-	const onSelect = (value: string) => {
-		searchParamsManager.set("sort", value)
+	const onClick = () => {
+		let value: ProductOrderByInput | undefined
+		switch (sortValue) {
+			case undefined:
+				value = ProductOrderByInput.PriceAsc
+				break
+			case ProductOrderByInput.PriceAsc:
+				value = ProductOrderByInput.PriceDesc
+				break
+			case ProductOrderByInput.PriceDesc:
+				value = undefined
+				break
+		}
+
+		if (value) {
+			searchParamsManager.set("sort", value)
+		} else {
+			searchParamsManager.remove("sort")
+		}
 	}
 
 	return (
-		<Select
-			items={items}
-			placeholder="Sort by price"
-			onSelect={onSelect}
-			value={sortValue ?? undefined}
-			className="max-w-[180px]"
-		/>
+		<Button onClick={onClick} variant={!!sortValue ? "default" : "secondary"}>
+			Sort by price {sortValue === ProductOrderByInput.PriceDesc ? <ArrowUp01 /> : <ArrowDown01 />}
+		</Button>
 	)
 }
